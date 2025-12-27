@@ -1,7 +1,7 @@
 View live my portfolio : www.nishchalrajsubedi.com.np      https://my-portfolio-website-nu-gray.vercel.app/  \
  You can view my other project live here :  \
  
-You can view the live demo of my othr projects here:
+You can view the live demo of my othr projects here:  \
 Task Tracker with Login and Firebase DB: https://tasktrackernishchal.vercel.app/  \
 My Portfolio Website: www.nishchalrajsubedi.com.np  \
 Nepse Smart Calculator: https://delicate-pie-90da05.netlify.app/
