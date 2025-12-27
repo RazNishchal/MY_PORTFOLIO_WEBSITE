@@ -44,7 +44,7 @@ form.addEventListener('submit', async (e) => {
     
     // Show "Sending message..." next to button
     btn.disabled = true;
-    statusText.style.color = "#888"; 
+    statusText.style.color = "#000000"; 
     statusText.innerText = "Sending message...";
 
     try {
@@ -56,8 +56,11 @@ form.addEventListener('submit', async (e) => {
 
         if (response.ok) {
             // Success
-            statusText.style.color = "#ffffff"; 
+            statusText.style.color = "#000000"; 
             statusText.innerText = "Message sent successfully";
+            setTimeout(() => {
+  statusText.innerText = "";
+}, 1200);
             form.reset(); 
             
             // Wait 2 seconds, then fade out and reset button
