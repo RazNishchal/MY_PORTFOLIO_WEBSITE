@@ -606,3 +606,108 @@ img {
         min-height: 377px;
     }
 }
+
+/* 1. Improved Header Logic */
+.header {
+    color: #FFFFFF;
+    background-color: #000000;
+    height: 100vh;
+    display: flex; /* Use flex on the parent */
+    align-items: center; /* Vertical center */
+    justify-content: center; /* Horizontal center */
+    padding-top: 120px; /* Offset for the fixed home-banner */
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.header-title {
+    margin-top: 0; 
+    text-align: center;
+    font-size: 96px;
+    font-weight: 400;
+    font-family: 'League Gothic', sans-serif;
+    line-height: 1; /* Prevents large spacing */
+}
+
+.header-text {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: 12px;
+    font-family: 'League Spartan', sans-serif;
+    margin-top: 10px; /* Space between Title and Made with Love */
+}
+
+/* 2. Responsive Projects Grid Fix */
+.projects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    width: 100%; 
+    padding: 0 20px; /* Safety padding for edges */
+}
+
+.project {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0; 
+}
+
+.project-image img {
+    width: 100%;
+    max-width: 360px;
+    height: 460px;
+    object-fit: cover;
+    transition: all .1s linear;
+    cursor: pointer;
+    display: block;
+}
+
+/* 3. Media Queries for vanishing text and alignment */
+@media screen and (max-width: 1200px) {
+    .projects {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .header-title { font-size: 80px; }
+    .header-text { font-size: 24px; letter-spacing: 8px; }
+}
+
+@media screen and (max-width: 800px) {
+    .header {
+        height: auto;
+        min-height: 80vh; /* Shorter header on mobile */
+        padding-top: 100px; /* Smaller offset for mobile nav */
+        padding-bottom: 50px;
+    }
+    
+    .header-title { 
+        font-size: 60px; 
+    }
+    
+    .header-text { 
+        font-size: 18px; 
+        letter-spacing: 5px; 
+        margin-top: 5px;
+    }
+
+    .projects-home {
+        max-width: 100%; /* Allow full width on mobile */
+    }
+
+    .projects {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .project-image img {
+        height: auto;
+        min-height: 300px;
+    }
+}
