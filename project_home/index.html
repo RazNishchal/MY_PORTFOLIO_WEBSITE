@@ -12,6 +12,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap" rel="stylesheet" />
+    
+    <style>
+      /* Responsive Project Logic: 3, 2, 1 Order */
+      .projects {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 25px !important;
+        justify-content: flex-start !important;
+      }
+      .project {
+        /* Default: 3 per row (Desktop) */
+        flex: 1 1 calc(33.33% - 25px) !important;
+        min-width: 300px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+      }
+      @media (max-width: 1024px) {
+        .project {
+          /* Tablet: 2 per row */
+          flex: 1 1 calc(50% - 25px) !important;
+        }
+      }
+      @media (max-width: 650px) {
+        .project {
+          /* Mobile: 1 per row */
+          flex: 1 1 100% !important;
+        }
+      }
+      .project-image img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+      }
+      .project-image img:hover {
+        transform: scale(1.03);
+      }
+    </style>
   </head>
   <body>
     <div class="home-banner">
@@ -51,125 +90,122 @@
       </div>
     </header>
 
-    <section class="section" style="padding: 60px 0; background: #000;">
-      <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+    <section class="section" style="padding: 50px 0;">
+      <div class="container">
         
-        <div class="about-home" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; margin-bottom: 50px; border-left: 6px solid #fff;">
-          <div class="about-home-title" style="font-family: 'League Spartan', sans-serif; font-size: 2rem; color: #fff; margin-bottom: 15px;">About me</div>
+        <div class="about-home" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; border-left: 6px solid #fff; margin-bottom: 50px;">
+          <div class="about-home-title" style="font-family: 'League Spartan', sans-serif; font-size: 2.2rem; color: #fff; margin-bottom: 10px;">Education & Profile</div>
           <div class="about-home-text" style="color: #ccc; line-height: 1.8; font-size: 1.1rem;">
-            I am a motivated web developer and Computer Engineering student at Kathmandu University (CGPA 3.7). 
-            I specialize in the JavaScript ecosystem, specifically <strong>React, Next.js, and Node.js</strong>, 
-            blending technical logic with creative design to build performance-focused web applications.
+            I am a motivated web developer currently pursuing a <strong>Bachelor in Computer Engineering</strong> at <strong>Kathmandu University</strong> (CGPA: 3.7). I focus on building modern, performance-driven web solutions using <strong>React, Next.js, and SQL</strong>.
+          </div>
+          <div style="margin-top: 30px;">
+            <a href="https://drive.google.com/file/d/16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj/view?usp=sharing" target="_blank" style="display: inline-flex; align-items: center; background: #fff; color: #000; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; font-family: 'League Spartan';">
+                <img src="../images/Arrow_right.svg" alt="" style="filter: invert(1); width: 15px; margin-right: 10px;" /> DOWNLOAD FULL CV
+            </a>
           </div>
         </div>
 
-        <div class="skills-home" style="text-align: center;">
-          <div class="skills-home-title" style="font-family: 'League Spartan', sans-serif; font-size: 2rem; color: #fff; margin-bottom: 40px; letter-spacing: 2px;">TECHNICAL SKILLS</div>
-          <div class="my-skills" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 25px; justify-items: center;">
+        <div class="skills-home">
+          <div class="skills-home-title" style="text-align: center; margin-bottom: 40px;">My Tech Stack</div>
+          <div class="my-skills" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
             
-            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; width: 100px; border: 1px solid rgba(255,255,255,0.05);">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="40" alt="html" />
-              <div style="color: #888; margin-top: 10px; font-size: 0.8rem; font-weight: bold;">HTML</div>
+            <div class="skills-home-content" style="text-align: center;">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="50" alt="react" />
+              <div class="skills-home-text">ReactJS</div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; width: 100px; border: 1px solid rgba(255,255,255,0.05);">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="40" alt="css" />
-              <div style="color: #888; margin-top: 10px; font-size: 0.8rem; font-weight: bold;">CSS</div>
+            <div class="skills-home-content" style="text-align: center;">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="50" style="background: white; border-radius: 50%;" alt="next" />
+              <div class="skills-home-text">Next.js</div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; width: 100px; border: 1px solid rgba(255,255,255,0.05);">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="40" alt="js" />
-              <div style="color: #888; margin-top: 10px; font-size: 0.8rem; font-weight: bold;">JavaScript</div>
+            <div class="skills-home-content" style="text-align: center;">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="50" alt="node" />
+              <div class="skills-home-text">Node.js</div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; width: 100px; border: 1px solid rgba(255,255,255,0.05);">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="40" alt="react" />
-              <div style="color: #888; margin-top: 10px; font-size: 0.8rem; font-weight: bold;">ReactJS</div>
+            <div class="skills-home-content" style="text-align: center;">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="50" alt="sql" />
+              <div class="skills-home-text">SQL</div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; width: 100px; border: 1px solid rgba(255,255,255,0.05);">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="40" style="background: white; border-radius: 50%;" alt="next" />
-              <div style="color: #888; margin-top: 10px; font-size: 0.8rem; font-weight: bold;">Next.js</div>
+            <div class="skills-home-content" style="text-align: center;">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="50" alt="python" />
+              <div class="skills-home-text">Python</div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; width: 100px; border: 1px solid rgba(255,255,255,0.05);">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="40" alt="node" />
-              <div style="color: #888; margin-top: 10px; font-size: 0.8rem; font-weight: bold;">Node.js</div>
+            <div class="skills-home-content" style="text-align: center;">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="50" alt="js" />
+              <div class="skills-home-text">JavaScript</div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; width: 100px; border: 1px solid rgba(255,255,255,0.05);">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="40" alt="sql" />
-              <div style="color: #888; margin-top: 10px; font-size: 0.8rem; font-weight: bold;">SQL</div>
+            <div class="skills-home-content" style="text-align: center;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="50" alt="ts" />
+                <div class="skills-home-text">TypeScript</div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; width: 100px; border: 1px solid rgba(255,255,255,0.05);">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="40" alt="python" />
-              <div style="color: #888; margin-top: 10px; font-size: 0.8rem; font-weight: bold;">Python</div>
-            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" style="padding: 40px 0; background: #000;">
-      <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+    <section class="section">
+      <div class="container">
         <div class="projects-home">
-          <div class="projects" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: stretch;">
-            
-            <div class="project" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-              <div class="project-title" style="color: #fff; font-family: 'League Spartan'; font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase;">Kavre Guide</div>
+          <div class="projects">
+            <div class="project">
+              <div class="project-title">Kavre Guide</div>
               <div class="project-image">
                 <a href="https://github.com/RazNishchal/Kavre_Guide" target="_blank">
-                  <img src="../images/KavreGuide.png" alt="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" />
+                  <img src="../images/KavreGuide.png" alt="Kavre Guide" />
                 </a>
               </div>
             </div>
 
-            <div class="project" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-              <div class="project-title" style="color: #fff; font-family: 'League Spartan'; font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase;">Phal Sabji Sanjaal</div>
+            <div class="project">
+              <div class="project-title">Phal Sabji Sanjaal</div>
               <div class="project-image">
                 <a href="https://github.com/RazNishchal/Phal-Sabji-Sanjaal" target="_blank">
-                  <img src="../images/Phal.png" alt="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" />
+                  <img src="../images/Phal.png" alt="Phal Sabji Sanjaal" />
                 </a>
               </div>
             </div>
 
-            <div class="project" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-              <div class="project-title" style="color: #fff; font-family: 'League Spartan'; font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase;">Portfolio Website</div>
+            <div class="project">
+              <div class="project-title">Portfolio Website</div>
               <div class="project-image">
                 <a href="https://www.nishchalrajsubedi.com.np/" target="_blank">
-                  <img src="../images/Portfolio.png" alt="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" />
+                  <img src="../images/Portfolio.png" alt="Portfolio" />
                 </a>
               </div>
             </div>
 
-            <div class="project" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-              <div class="project-title" style="color: #fff; font-family: 'League Spartan'; font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase;">Currency Converter</div>
+            <div class="project">
+              <div class="project-title">Currency Converter</div>
               <div class="project-image">
                 <a href="https://github.com/RazNishchal/Currency-Converter" target="_blank">
-                  <img src="../images/Currency.png" alt="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" />
+                  <img src="../images/Currency.png" alt="Currency" />
                 </a>
               </div>
             </div>
 
-            <div class="project" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-              <div class="project-title" style="color: #fff; font-family: 'League Spartan'; font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase;">Youtube Clone</div>
+            <div class="project">
+              <div class="project-title">Youtube Clone</div>
               <div class="project-image">
                 <a href="https://github.com/RazNishchal/YOUTUBE_FRONTEND" target="_blank">
-                  <img src="../images/clone.jpg" alt="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" />
+                  <img src="../images/clone.jpg" alt="Youtube Clone" />
                 </a>
               </div>
             </div>
 
-            <div class="project" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-              <div class="project-title" style="color: #fff; font-family: 'League Spartan'; font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase;">Rock Paper Scissors</div>
+            <div class="project">
+              <div class="project-title">Rock Paper Scissors</div>
               <div class="project-image">
                 <a href="#">
-                  <img src="../images/Game.png" alt="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;" />
+                  <img src="../images/Game.png" alt="Game" />
                 </a>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -179,9 +215,7 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-frame">
-            <div class="frame">
-              <a href="../projects/index.html">PROJECTS</a>
-            </div>
+            <div class="frame"><a href="../projects/index.html">PROJECTS</a></div>
             <div class="frame"><a href="../about/index.html">ABOUT</a></div>
             <div class="frame"><a href="../contact/index.html">CONTACT</a></div>
           </div>
