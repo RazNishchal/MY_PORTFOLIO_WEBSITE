@@ -59,21 +59,32 @@ img {
 }
 
 .drive-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #4285F4; /* Google Drive blue color */
-    text-decoration: none;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-}
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+        padding: 16px 45px;
+        font-family: 'League Spartan', sans-serif;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        color: #000;
+        background: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        border: 1px solid #fff;
+        position: relative;
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        cursor: pointer;
+        overflow: hidden;
+        z-index: 1;
+      }
 
-.drive-button:hover {
-    background-color: #357ae8;
-}
+      .drive-button:hover {
+        color: #fff;
+        background: transparent;
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+      }
 
 .home-icon {
     width: 80px;
