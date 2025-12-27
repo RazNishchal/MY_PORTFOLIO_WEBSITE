@@ -4,98 +4,79 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-// AbstractAPI Configuration
-const API_KEY = "5161dd148ef34d4aaec17e1ad8d6c5b3"; 
-let isEmailValid = false; 
-let debounceTimer;
+// Your Google Client ID
+const CLIENT_ID = "934084881410-798rveo0nejv0hm3kp66idimjrji7e0m.apps.googleusercontent.com";
 
-// Create status message element next to the button
+// Status message element
 var statusText = document.createElement('span');
 statusText.style.cssText = "margin-left:15px; font-size:0.9rem; display:inline-block; vertical-align:middle; font-family:'League Spartan', sans-serif;";
 document.querySelector('.btns').appendChild(statusText);
 
-// 1. High-Precision Verification Function
-async function verifyEmailReal(emailVal) {
-    if (!emailVal.includes('@')) return false;
+// 1. Initialize Google Sign-In
+window.onload = function () {
+    google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+        callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+        document.getElementById("google_btn"),
+        { 
+            theme: "filled_black", 
+            size: "large", 
+            shape: "pill",
+            text: "signin_with",
+            width: "250" 
+        }
+    );
+};
+
+// 2. Handle Google Response
+function handleCredentialResponse(response) {
+    // Decode the Google Token
+    const responsePayload = parseJwt(response.credential);
+
+    // Auto-fill and Lock (Read-Only)
+    yourName.value = responsePayload.name;
+    email.value = responsePayload.email;
+    yourName.readOnly = true;
+    email.readOnly = true;
+
+    // Visual feedback for verification
+    yourName.style.borderBottom = "2px #00FF00 solid";
+    email.style.borderBottom = "2px #00FF00 solid";
     
-    const url = `https://emailvalidation.abstractapi.com/v1/?api_key=${API_KEY}&email=${emailVal}`;
-    
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        // Console log so you can see the 'quality_score' while testing
-        console.log("Email Data:", data);
-
-        // Check 1: Is it explicitly undeliverable?
-        if (data.deliverability === "UNDELIVERABLE") return false;
-
-        // Check 2: Is it a temporary/disposable email?
-        if (data.is_disposable_email.value === true) return false;
-
-        // Check 3: Is the quality score high enough? (Filters out keyboard smashes)
-        if (data.quality_score < 0.5) return false;
-
-        return true; 
-    } catch (error) {
-        console.error("Verification Error:", error);
-        return true; // Fail-safe
-    }
+    // Hide Google button and show verified status
+    document.getElementById("google_btn").style.display = "none";
+    statusText.style.color = "#00FF00";
+    statusText.innerText = "Verified by Google ✓";
 }
 
+// Helper to decode user info
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(window.atob(base64));
+}
 
-
-// 2. Dynamic Pre-Check (Starts 2 seconds after user stops typing)
-email.addEventListener('input', () => {
-    isEmailValid = false; 
-    statusText.innerText = "";
-    email.parentElement.style.borderBottom = ''; 
-    
-    clearTimeout(debounceTimer);
-
-    debounceTimer = setTimeout(async () => {
-        if (email.value.length > 5) {
-            statusText.style.color = "#888";
-            statusText.innerText = "verifying email...";
-            
-            const real = await verifyEmailReal(email.value);
-            
-            if (!real) {
-                statusText.style.color = "#FF0000";
-                statusText.innerText = "invalid email";
-                email.parentElement.style.borderBottom = '2px #FF0000 solid';
-                isEmailValid = false;
-            } else {
-                statusText.style.color = "#00FF00";
-                statusText.innerText = "valid email";
-                email.parentElement.style.borderBottom = '2px #00FF00 solid';
-                isEmailValid = true;
-                
-                // Clear the "valid" text after 2 seconds
-                setTimeout(() => { if(isEmailValid) statusText.innerText = ""; }, 2000);
-            }
-        }
-    }, 2000); 
-});
-
-// 3. Submission Logic
+// 3. Form Submission Logic
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    if (!yourName.value || !email.value || !sms.value) {
+
+    // Ensure they logged in with Google first
+    if (!email.readOnly) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "please fill all fields";
+        statusText.innerText = "please login with google first";
         return;
     }
 
-    // Stop if email hasn't been verified or is invalid
-    if (!isEmailValid) {
+    // Ensure message is not empty
+    if (!sms.value.trim()) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "invalid email";
+        statusText.innerText = "please write a message";
         return;
     }
 
-    // Show "sending message..." for exactly 2 seconds
+    // "sending message..." for exactly 2 seconds
     btn.disabled = true;
     statusText.style.opacity = '1';
     statusText.style.color = "#888";
@@ -104,7 +85,7 @@ form.addEventListener('submit', async (e) => {
     const data = new FormData(form);
 
     try {
-        // Force the 2-second visual delay
+        // Force the 2-second visual delay you requested
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         const response = await fetch(form.action, {
@@ -114,22 +95,28 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            // Success: show for exactly 1 second
+            // Success: show for 1 second
             statusText.style.color = "#00FF00";
             statusText.innerText = "✓ message sent successfully";
             form.reset();
-            email.parentElement.style.borderBottom = '';
-            isEmailValid = false;
+            
+            // Clean up UI
+            yourName.readOnly = false;
+            email.readOnly = false;
+            yourName.style.borderBottom = "";
+            email.style.borderBottom = "";
 
             setTimeout(() => {
                 statusText.style.transition = "opacity 0.5s";
                 statusText.style.opacity = '0';
                 setTimeout(() => {
                     statusText.innerText = "";
+                    statusText.style.opacity = '1';
                     statusText.style.transition = "none";
                     btn.disabled = false;
+                    document.getElementById("google_btn").style.display = "block";
                 }, 500);
-            }, 1000); 
+            }, 1000); // 1-second success display
         } else {
             statusText.style.color = "#FF0000";
             statusText.innerText = "failed to send";
