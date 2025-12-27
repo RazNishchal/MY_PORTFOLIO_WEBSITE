@@ -4,38 +4,55 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
+// AbstractAPI Configuration
 const API_KEY = "5161dd148ef34d4aaec17e1ad8d6c5b3"; 
 let isEmailValid = false; 
 let debounceTimer;
 
-// Status span next to button
+// Create status message element next to the button
 var statusText = document.createElement('span');
 statusText.style.cssText = "margin-left:15px; font-size:0.9rem; display:inline-block; vertical-align:middle; font-family:'League Spartan', sans-serif;";
 document.querySelector('.btns').appendChild(statusText);
 
-// Function to ping AbstractAPI
+// 1. High-Precision Verification Function
 async function verifyEmailReal(emailVal) {
     if (!emailVal.includes('@')) return false;
+    
+    const url = `https://emailvalidation.abstractapi.com/v1/?api_key=${API_KEY}&email=${emailVal}`;
+    
     try {
-        const response = await fetch(`https://emailvalidation.abstractapi.com/v1/?api_key=${API_KEY}&email=${emailVal}`);
+        const response = await fetch(url);
         const data = await response.json();
-        // Returns true if deliverable or unknown, false only if explicitly undeliverable
-        return data.deliverability !== "UNDELIVERABLE";
+        
+        // Console log so you can see the 'quality_score' while testing
+        console.log("Email Data:", data);
+
+        // Check 1: Is it explicitly undeliverable?
+        if (data.deliverability === "UNDELIVERABLE") return false;
+
+        // Check 2: Is it a temporary/disposable email?
+        if (data.is_disposable_email.value === true) return false;
+
+        // Check 3: Is the quality score high enough? (Filters out keyboard smashes)
+        if (data.quality_score < 0.5) return false;
+
+        return true; 
     } catch (error) {
-        return true; // Fail safe
+        console.error("Verification Error:", error);
+        return true; // Fail-safe
     }
 }
 
-// 1. DYNAMIC PRE-CHECK: Resets every time the user types
+
+
+// 2. Dynamic Pre-Check (Starts 2 seconds after user stops typing)
 email.addEventListener('input', () => {
     isEmailValid = false; 
     statusText.innerText = "";
-    email.parentElement.style.borderBottom = ''; // Reset border while typing
+    email.parentElement.style.borderBottom = ''; 
     
-    // Cancel the previous timer if user starts typing again
     clearTimeout(debounceTimer);
 
-    // Start a new 2-second countdown
     debounceTimer = setTimeout(async () => {
         if (email.value.length > 5) {
             statusText.style.color = "#888";
@@ -54,16 +71,14 @@ email.addEventListener('input', () => {
                 email.parentElement.style.borderBottom = '2px #00FF00 solid';
                 isEmailValid = true;
                 
-                // Optional: Clear "valid email" text after 2 seconds to keep it clean
+                // Clear the "valid" text after 2 seconds
                 setTimeout(() => { if(isEmailValid) statusText.innerText = ""; }, 2000);
             }
         }
     }, 2000); 
 });
 
-
-
-// 2. SUBMISSION LOGIC
+// 3. Submission Logic
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -73,13 +88,14 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
+    // Stop if email hasn't been verified or is invalid
     if (!isEmailValid) {
         statusText.style.color = "#FF0000";
         statusText.innerText = "invalid email";
         return;
     }
 
-    // Start sending phase (2 seconds)
+    // Show "sending message..." for exactly 2 seconds
     btn.disabled = true;
     statusText.style.opacity = '1';
     statusText.style.color = "#888";
@@ -88,7 +104,7 @@ form.addEventListener('submit', async (e) => {
     const data = new FormData(form);
 
     try {
-        // Wait 2 seconds for the "sending" animation/text
+        // Force the 2-second visual delay
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         const response = await fetch(form.action, {
@@ -98,7 +114,7 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            // Success: show for 1 second
+            // Success: show for exactly 1 second
             statusText.style.color = "#00FF00";
             statusText.innerText = "✓ message sent successfully";
             form.reset();
