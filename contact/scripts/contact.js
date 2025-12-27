@@ -4,7 +4,12 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-// Your Google Client ID
+// Initialize fields as uneditable immediately
+yourName.readOnly = true;
+email.readOnly = true;
+yourName.style.cursor = "not-allowed";
+email.style.cursor = "not-allowed";
+
 const CLIENT_ID = "934084881410-798rveo0nejv0hm3kp66idimjrji7e0m.apps.googleusercontent.com";
 
 // Status message element
@@ -24,31 +29,27 @@ window.onload = function () {
             theme: "filled_black", 
             size: "large", 
             shape: "pill",
-            text: "signin_with",
-            width: "250" 
+            text: "signin_with"
         }
     );
 };
 
-// 2. Handle Google Response
+// 2. Handle Google Response (Fetch Data and Fill)
 function handleCredentialResponse(response) {
-    // Decode the Google Token
     const responsePayload = parseJwt(response.credential);
 
-    // Auto-fill and Lock (Read-Only)
+    // Inject data from Google
     yourName.value = responsePayload.name;
     email.value = responsePayload.email;
-    yourName.readOnly = true;
-    email.readOnly = true;
 
-    // Visual feedback for verification
+    // Visual confirmation
     yourName.style.borderBottom = "2px #00FF00 solid";
     email.style.borderBottom = "2px #00FF00 solid";
     
-    // Hide Google button and show verified status
+    // Hide Login button - data is now locked in
     document.getElementById("google_btn").style.display = "none";
     statusText.style.color = "#00FF00";
-    statusText.innerText = "Verified by Google ✓";
+    statusText.innerText = "Verified as " + responsePayload.name;
 }
 
 // Helper to decode user info
@@ -58,25 +59,28 @@ function parseJwt(token) {
     return JSON.parse(window.atob(base64));
 }
 
-// 3. Form Submission Logic
+
+
+// 3. Submission Logic
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Ensure they logged in with Google first
-    if (!email.readOnly) {
+    // Safety Check: Must be logged in (which fills the name/email)
+    if (!email.value) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "please login with google first";
+        statusText.innerText = "Please login with Google first";
         return;
     }
 
-    // Ensure message is not empty
+    // Safety Check: Message is required
     if (!sms.value.trim()) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "please write a message";
+        statusText.innerText = "Please write a message before sending";
+        sms.focus();
         return;
     }
 
-    // "sending message..." for exactly 2 seconds
+    // Start Sending Phase (2 seconds)
     btn.disabled = true;
     statusText.style.opacity = '1';
     statusText.style.color = "#888";
@@ -85,7 +89,7 @@ form.addEventListener('submit', async (e) => {
     const data = new FormData(form);
 
     try {
-        // Force the 2-second visual delay you requested
+        // 2-second visual delay
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         const response = await fetch(form.action, {
@@ -95,16 +99,12 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            // Success: show for 1 second
+            // Success Phase (1 second)
             statusText.style.color = "#00FF00";
             statusText.innerText = "✓ message sent successfully";
-            form.reset();
             
-            // Clean up UI
-            yourName.readOnly = false;
-            email.readOnly = false;
-            yourName.style.borderBottom = "";
-            email.style.borderBottom = "";
+            // Reset only the message, keep the user logged in/verified for better UX
+            sms.value = ""; 
 
             setTimeout(() => {
                 statusText.style.transition = "opacity 0.5s";
@@ -114,9 +114,8 @@ form.addEventListener('submit', async (e) => {
                     statusText.style.opacity = '1';
                     statusText.style.transition = "none";
                     btn.disabled = false;
-                    document.getElementById("google_btn").style.display = "block";
                 }, 500);
-            }, 1000); // 1-second success display
+            }, 1000); 
         } else {
             statusText.style.color = "#FF0000";
             statusText.innerText = "failed to send";
