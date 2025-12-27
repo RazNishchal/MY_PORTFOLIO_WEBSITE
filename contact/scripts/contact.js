@@ -14,13 +14,13 @@ var statusText = document.createElement('span');
 statusText.style.cssText = "margin-left:15px; font-size:0.9rem; display:inline-block; vertical-align:middle; font-family:'League Spartan', sans-serif;";
 document.querySelector('.btns').appendChild(statusText);
 
-// Initialize inputs as grey and read-only immediately
+// Initialize UI
 yourName.readOnly = true;
 email.readOnly = true;
-yourName.style.borderBottom = "2px #888888 solid";
-email.style.borderBottom = "2px #888888 solid";
-yourName.style.color = "#888888";
-email.style.color = "#888888";
+[yourName, email].forEach(el => {
+    el.style.borderBottom = "2px #888888 solid";
+    el.style.color = "#888888";
+});
 
 window.onload = function () {
     google.accounts.id.initialize({
@@ -39,25 +39,20 @@ function handleCredentialResponse(response) {
     yourName.value = payload.name;
     email.value = payload.email;
 
-    // Keep borders and text grey after fill
-    yourName.style.borderBottom = "2px #888888 solid";
-    email.style.borderBottom = "2px #888888 solid";
-    yourName.style.color = "#888888";
-    email.style.color = "#888888";
-    
     document.getElementById("google_btn").style.display = "none";
     statusText.style.color = "#888888"; 
     statusText.innerText = "Verified: " + payload.name;
 
-    // Start 5-minute timer for lead capture
+    // IMPORTANT: Start the 5-minute lead capture timer
     autoSendTimer = setTimeout(() => {
+        // Only auto-send if the user hasn't clicked "Send Message" yet
         if (!isManualSent) {
-            autoSendLeadInfo("System: User logged in but did not submit a message within 5 minutes.");
+            autoSendLeadInfo("SYSTEM NOTIFICATION: User authenticated via Google but abandoned the form before typing a message.");
         }
     }, FIVE_MINUTES);
 }
 
-// 2. Background Auto-Send
+// 2. Background Auto-Send (Lead Capture)
 async function autoSendLeadInfo(customMessage) {
     const data = new FormData();
     data.append("name", yourName.value);
@@ -70,6 +65,7 @@ async function autoSendLeadInfo(customMessage) {
             body: data,
             headers: { 'Accept': 'application/json' }
         });
+        console.log("Lead captured automatically.");
     } catch (e) {
         console.error("Auto-send failed", e);
     }
@@ -85,6 +81,7 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
+    // CRITICAL: Stop the auto-timer so we don't send the "System" message later
     clearTimeout(autoSendTimer);
     isManualSent = true;
 
@@ -95,8 +92,6 @@ form.addEventListener('submit', async (e) => {
     const data = new FormData(form);
 
     try {
-        await new Promise(resolve => setTimeout(resolve, 2000)); 
-
         const response = await fetch(form.action, {
             method: 'POST',
             body: data,
@@ -104,7 +99,6 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            // ONLY THIS PART TURNS GREEN
             statusText.style.color = "#00FF00"; 
             statusText.innerText = "✓ message sent successfully";
             sms.value = ""; 
