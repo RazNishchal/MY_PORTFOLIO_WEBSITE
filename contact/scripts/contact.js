@@ -4,9 +4,6 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-// Global variable to store the photo URL
-let userPhotoURL = "";
-
 const CLIENT_ID = "934084881410-798rveo0nejv0hm3kp66idimjrji7e0m.apps.googleusercontent.com";
 
 // Setup Status Text
@@ -40,24 +37,22 @@ async function handleCredentialResponse(response) {
     const payload = parseJwt(response.credential);
     yourName.value = payload.name;
     email.value = payload.email;
-    userPhotoURL = payload.picture; // Extract Google profile photo
 
     document.getElementById("google_btn").style.display = "none";
     statusText.style.color = "#888888"; 
     statusText.innerText = "Verified: " + payload.name;
 
-    // FIRST SEND: Notify owner immediately upon login
-    await sendToOwner("SYSTEM: User authenticated via Google. Identity captured.", userPhotoURL);
+    // FIRST SEND: Notify owner immediately with default message
+    await sendToOwner("Default Message: User logged in via Google. Identity captured, but no manual message typed yet.");
 }
 
 // Helper function to send data to your form backend
-async function sendToOwner(customMessage, photo) {
+async function sendToOwner(customMessage) {
     if (!form) return;
     const data = new FormData();
     data.append("name", yourName.value);
     data.append("email", email.value);
     data.append("message", customMessage);
-    data.append("photo_url", photo); 
 
     try {
         await fetch(form.action, {
@@ -65,7 +60,7 @@ async function sendToOwner(customMessage, photo) {
             body: data,
             headers: { 'Accept': 'application/json' }
         });
-        console.log("Immediate login notification sent.");
+        console.log("Immediate notification sent to owner.");
     } catch (e) {
         console.error("Auto-send failed", e);
     }
@@ -86,8 +81,8 @@ if (form) {
         statusText.style.color = "#888888";
         statusText.innerText = "sending message...";
 
+        // SECOND SEND: Uses the actual data from the form (including the user's typed message)
         const data = new FormData(form);
-        data.append("photo_url", userPhotoURL); 
 
         try {
             const response = await fetch(form.action, {
