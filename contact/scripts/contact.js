@@ -4,48 +4,67 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-// 1. Create a span for the message next to the button
+var emailFeedback = document.createElement('div');
+emailFeedback.style.fontSize = '0.8rem';
+emailFeedback.style.marginTop = '5px';
+email.parentElement.appendChild(emailFeedback);
+
 var statusText = document.createElement('span');
 statusText.style.marginLeft = '15px';
-statusText.style.fontFamily = 'inherit';
 statusText.style.fontSize = '0.9rem';
-statusText.style.transition = 'opacity 0.4s';
-statusText.style.verticalAlign = 'middle';
+statusText.style.transition = 'opacity 0.4s ease';
+document.querySelector('.btns').appendChild(statusText);
 
-// 2. Add the span into the button container
-var btnContainer = document.querySelector('.btns');
-btnContainer.appendChild(statusText);
+// List of common fake/disposable email domains to block
+const bannedDomains = ['test.com', 'example.com', 'mailinator.com', 'tempmail.com', '10minutemail.com'];
+
+function validateRealEmail(emailVal) {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!pattern.test(emailVal)) return "invalid";
+    
+    const domain = emailVal.split('@')[1].toLowerCase();
+    if (bannedDomains.includes(domain)) return "fake";
+    
+    return "valid";
+}
+
+// Real-time checking
+email.addEventListener('input', () => {
+    const result = validateRealEmail(email.value);
+    
+    if (email.value === "") {
+        emailFeedback.innerText = "";
+    } else if (result === "valid") {
+        emailFeedback.style.color = "#00FF00";
+        emailFeedback.innerText = "valid email address";
+    } else if (result === "fake") {
+        emailFeedback.style.color = "#FF0000";
+        emailFeedback.innerText = "disposable/fake email not allowed";
+    } else {
+        emailFeedback.style.color = "#FF0000";
+        emailFeedback.innerText = "enter valid email";
+    }
+});
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault(); 
-
-    var theError = false;
-    statusText.innerText = ""; 
     statusText.style.opacity = '1';
 
-    // Validation
-    [yourName, email, sms].forEach(item => {
-        if (!item.value) {
-            item.parentElement.style.borderBottom = '2px #FF0000 solid';
-            theError = true;
-        } else {
-            item.parentElement.style.borderBottom = '';
-        }
-    });
+    const emailStatus = validateRealEmail(email.value);
 
-    if (theError) {
+    if (emailStatus !== "valid") {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "Please fill all fields";
+        statusText.innerText = emailStatus === "fake" ? "use a real email" : "invalid email";
         return;
     }
 
     // Prepare Data
     const data = new FormData(form);
-    
-    // Show "Sending message..." next to button
     btn.disabled = true;
-    statusText.style.color = "#000000"; 
+    statusText.style.color = "#888"; 
     statusText.innerText = "Sending message...";
+
+    
 
     try {
         const response = await fetch(form.action, {
@@ -55,24 +74,22 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            // Success
-            statusText.style.color = "#000000"; 
+            statusText.style.color = "#ffffff"; 
             statusText.innerText = "Message sent successfully";
-            setTimeout(() => {
-  statusText.innerText = "";
-}, 1200);
+            emailFeedback.innerText = "";
             form.reset(); 
             
-            // Wait 2 seconds, then fade out and reset button
             setTimeout(() => {
                 statusText.style.opacity = '0';
-                btn.disabled = false;
+                setTimeout(() => {
+                    statusText.innerText = "";
+                    btn.disabled = false;
+                }, 400);
             }, 2000);
 
         } else {
-            // Error
             statusText.style.color = "#FF0000";
-            statusText.innerText = "Message was not sent";
+            statusText.innerText = "Submission failed";
             btn.disabled = false;
         }
     } catch (error) {
