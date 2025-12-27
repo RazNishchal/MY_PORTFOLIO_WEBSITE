@@ -546,46 +546,31 @@ img {
         height: 40px;
     }
 }
-/* 1. Fix the Header Typo and Alignment */
-.header-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* Ensures text centers in the 100vh header */
-}
-
-.header-title {
-    margin-top: 0; /* Changed from 334px to 0 because we are using Flex centering */
-    text-align: center;
-    font-size: 96px;
-    font-weight: 400;
-    font-family: 'League Gothic', sans-serif;
-}
-
-/* 2. Fix the Projects Grid */
+/* Ensure the grid doesn't have extra margin breaking the layout */
 .projects {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
-    width: 100%; /* Ensure it takes full container width */
+    width: 100%; /* Add this */
 }
 
-.project {
-    margin-top: 0; /* Remove top margin, let the grid 'gap' handle it */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+/* Mobile Responsive Fix */
+@media screen and (max-width: 800px) {
+    .projects-home {
+        max-width: 100%; /* Changed from 298px to allow full width */
+        padding: 0 20px;
+    }
+    
+    .projects {
+        grid-template-columns: 1fr; /* Single column for mobile */
+        justify-items: center; /* Centers the projects */
+    }
 
-.project-image img {
-    width: 100%;    /* Make images responsive to their grid cell */
-    max-width: 360px; 
-    height: 460px;
-    object-fit: cover; /* Keeps image aspect ratio clean */
-    transition: all .1s linear;
-    cursor: pointer;
-    display: block;
+    .project-image img {
+        width: 100%; 
+        max-width: 360px; /* Keep them from getting too huge on larger phones */
+        height: auto; 
+    }
 }
 
 
