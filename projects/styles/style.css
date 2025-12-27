@@ -588,21 +588,4 @@ img {
     display: block;
 }
 
-/* 3. Responsive Adjustments */
-@media screen and (max-width: 1200px) {
-    .projects {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
-    }
-    .header-title { font-size: 72px; }
-}
 
-@media screen and (max-width: 800px) {
-    .projects {
-        grid-template-columns: 1fr; /* 1 column for mobile */
-    }
-    .project-image img {
-        width: 100%;
-        height: auto; /* Allow height to scale naturally on small screens */
-        min-height: 377px;
-    }
-}
