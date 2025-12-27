@@ -84,52 +84,58 @@
     </header>
 
     <section class="section">
-      <div class="container">
-        <div class="about-home-title">Contact me</div>
+  <div class="container">
+    <div class="about-home-title">Contact me</div>
 
-        <form class="form" action="https://formspree.io/f/mjgvwwov" method="POST">
-          
-          <div id="google_btn"></div>
+    <form class="form" action="https://formspree.io/f/mjgvwwov" method="POST">
+      
+      <div id="google_btn" style="margin-bottom: 25px; display: flex; justify-content: flex-start;"></div>
 
-          <label class="label" for="name">
-            <span class="label-text" id="label-name">Name</span>
-            <input
-              type="text"
-              placeholder="Your name"
-              id="name"
-              name="name"
-              required
-            />
-          </label>
-          <label class="label" for="email">
-            <span class="label-text" id="label-email">Email</span>
-            <input
-              type="email"
-              placeholder="email@example.com"
-              id="email"
-              name="email"
-              required
-            />
-          </label>
-          <label class="label label-last" for="sms">
-            <span class="label-text" id="textSms">Message</span>
-            <input
-              type="text"
-              placeholder="Hello, my name is . . ."
-              id="sms"
-              name="message"
-              required
-            />
-          </label>
-          <div class="btns">
-            <button class="btn" type="submit" id="btn">
-              Send message
-            </button>
-          </div>
-        </form>
+      <label class="label" for="name">
+        <span class="label-text" id="label-name">Name</span>
+        <input
+          type="text"
+          placeholder="Login to fill name" 
+          id="name"
+          name="name"
+          required
+          readonly
+        />
+      </label>
+
+      <label class="label" for="email">
+        <span class="label-text" id="label-email">Email</span>
+        <input
+          type="email"
+          placeholder="Login to fill email"
+          id="email"
+          name="email"
+          required
+          readonly
+        />
+      </label>
+
+      <label class="label label-last" for="sms">
+        <span class="label-text" id="textSms">Message</span>
+        <input
+          type="text"
+          placeholder="Hello, my name is . . ."
+          id="sms"
+          name="message"
+          required
+        />
+      </label>
+
+      <div class="btns">
+        <button class="btn" type="submit" id="btn">
+          Send message
+        </button>
       </div>
-    </section>
+    </form>
+  </div>
+</section>
 
+    
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
