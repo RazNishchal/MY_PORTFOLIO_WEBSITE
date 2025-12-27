@@ -4,79 +4,77 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-var emailFeedback = document.createElement('div');
-emailFeedback.style.fontSize = '0.8rem';
-emailFeedback.style.marginTop = '5px';
-email.parentElement.appendChild(emailFeedback);
+// API Configuration
+const API_KEY = "5161dd148ef34d4aaec17e1ad8d6c5b3"; 
 
+// 1. Inject Animation Styles
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    .status-animation {
+        animation: slideIn 0.4s ease forwards;
+    }
+`;
+document.head.appendChild(style);
+
+// 2. Feedback elements
 var statusText = document.createElement('span');
 statusText.style.marginLeft = '15px';
 statusText.style.fontSize = '0.9rem';
-statusText.style.transition = 'opacity 0.4s ease';
+statusText.style.display = 'inline-block';
+statusText.style.verticalAlign = 'middle';
+statusText.style.fontFamily = "'League Spartan', sans-serif";
 document.querySelector('.btns').appendChild(statusText);
 
-// 1. BLOCKED DOMAINS (Common fake/bot providers)
-const blockedDomains = [
-    'test.com', 'example.com', 'mailinator.com', 'tempmail.com', 
-    '10minutemail.com', 'trashmail.com', 'guerrillamail.com'
-];
-
-// 2. REAL-TIME VALIDATION FUNCTION
-function checkEmailReality(emailVal) {
-    const parts = emailVal.split('@');
-    if (parts.length !== 2) return "format_error";
-    
-    const [user, domain] = [parts[0].toLowerCase(), parts[1].toLowerCase()];
-
-    // Block common fake usernames
-    const fakeUsers = ['admin', 'test', 'tester', 'fake', 'asdf', 'none'];
-    if (fakeUsers.includes(user) || user.length < 2) return "fake_user";
-
-    // Block disposable domains
-    if (blockedDomains.includes(domain)) return "blocked_domain";
-
-    // Standard Format Check
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!pattern.test(emailVal)) return "format_error";
-
-    return "valid";
+// Deep Verification Function
+async function verifyEmailReal(emailVal) {
+    try {
+        const response = await fetch(`https://emailvalidation.abstractapi.com/v1/?api_key=${API_KEY}&email=${emailVal}`);
+        const data = await response.json();
+        return data.deliverability === "DELIVERABLE";
+    } catch (error) {
+        return true; 
+    }
 }
 
-// 3. LISTEN FOR INPUT
-email.addEventListener('input', () => {
-    const status = checkEmailReality(email.value);
-    
-    if (email.value === "") {
-        emailFeedback.innerText = "";
-    } else if (status === "valid") {
-        emailFeedback.style.color = "#00FF00";
-        emailFeedback.innerText = "valid email address";
-    } else {
-        emailFeedback.style.color = "#FF0000";
-        emailFeedback.innerText = "please provide a real email address";
-    }
-});
-
-
-
-// 4. SUBMISSION LOGIC
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
+    // Reset status and add animation class
+    statusText.classList.remove('status-animation');
+    void statusText.offsetWidth; // Trigger reflow to restart animation
+    statusText.classList.add('status-animation');
+    
     statusText.style.opacity = '1';
+    statusText.style.color = "#888";
+    statusText.innerText = "Verifying email...";
+    btn.disabled = true;
 
-    const status = checkEmailReality(email.value);
-
-    if (status !== "valid") {
+    // Check for empty fields
+    if (!yourName.value || !email.value || !sms.value) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "invalid or fake email";
+        statusText.innerText = "Please fill all fields";
+        btn.disabled = false;
         return;
     }
 
-    // Prepare Transmission
-    const data = new FormData(form);
-    btn.disabled = true;
-    statusText.style.color = "#888";
+    // Deep Verification
+    const isReal = await verifyEmailReal(email.value);
+
+    if (!isReal) {
+        statusText.style.color = "#FF0000";
+        statusText.innerText = "This email does not exist";
+        email.parentElement.style.borderBottom = '2px #FF0000 solid';
+        btn.disabled = false;
+        return;
+    }
+
+    // Formspree Submission
     statusText.innerText = "Sending message...";
+    const data = new FormData(form);
 
     try {
         const response = await fetch(form.action, {
@@ -86,17 +84,20 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            statusText.style.color = "#ffffff";
-            statusText.innerText = "Message sent successfully";
-            emailFeedback.innerText = "";
+            statusText.style.color = "#00FF00"; // Changed to green for success
+            statusText.innerText = "✓ Message sent successfully";
+            email.parentElement.style.borderBottom = '';
             form.reset();
             
+            // 2-second display rule
             setTimeout(() => {
+                statusText.style.transition = "opacity 0.5s";
                 statusText.style.opacity = '0';
                 setTimeout(() => {
                     statusText.innerText = "";
+                    statusText.style.transition = "none";
                     btn.disabled = false;
-                }, 400);
+                }, 500);
             }, 2000);
         } else {
             statusText.style.color = "#FF0000";
