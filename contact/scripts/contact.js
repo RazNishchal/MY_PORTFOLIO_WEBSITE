@@ -14,6 +14,14 @@ var statusText = document.createElement('span');
 statusText.style.cssText = "margin-left:15px; font-size:0.9rem; display:inline-block; vertical-align:middle; font-family:'League Spartan', sans-serif;";
 document.querySelector('.btns').appendChild(statusText);
 
+// Initialize inputs as grey and read-only immediately
+yourName.readOnly = true;
+email.readOnly = true;
+yourName.style.borderBottom = "2px #888888 solid";
+email.style.borderBottom = "2px #888888 solid";
+yourName.style.color = "#888888";
+email.style.color = "#888888";
+
 window.onload = function () {
     google.accounts.id.initialize({
         client_id: CLIENT_ID,
@@ -30,18 +38,18 @@ function handleCredentialResponse(response) {
     const payload = parseJwt(response.credential);
     yourName.value = payload.name;
     email.value = payload.email;
-    yourName.readOnly = true;
-    email.readOnly = true;
 
-    // Grey Visual Feedback
+    // Keep borders and text grey after fill
     yourName.style.borderBottom = "2px #888888 solid";
     email.style.borderBottom = "2px #888888 solid";
+    yourName.style.color = "#888888";
+    email.style.color = "#888888";
     
     document.getElementById("google_btn").style.display = "none";
-    statusText.style.color = "#888888"; // Grey text
+    statusText.style.color = "#888888"; 
     statusText.innerText = "Verified: " + payload.name;
 
-    // Start 5-minute timer
+    // Start 5-minute timer for lead capture
     autoSendTimer = setTimeout(() => {
         if (!isManualSent) {
             autoSendLeadInfo("System: User logged in but did not submit a message within 5 minutes.");
@@ -62,7 +70,6 @@ async function autoSendLeadInfo(customMessage) {
             body: data,
             headers: { 'Accept': 'application/json' }
         });
-        console.log("Lead captured automatically.");
     } catch (e) {
         console.error("Auto-send failed", e);
     }
@@ -78,12 +85,11 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
-    // Stop the auto-timer since user is acting
     clearTimeout(autoSendTimer);
     isManualSent = true;
 
     btn.disabled = true;
-    statusText.style.color = "#888";
+    statusText.style.color = "#888888";
     statusText.innerText = "sending message...";
 
     const data = new FormData(form);
@@ -98,11 +104,13 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            statusText.style.color = "#00FF00"; // Green only on actual success
+            // ONLY THIS PART TURNS GREEN
+            statusText.style.color = "#00FF00"; 
             statusText.innerText = "✓ message sent successfully";
             sms.value = ""; 
 
             setTimeout(() => {
+                statusText.style.transition = "opacity 0.5s";
                 statusText.style.opacity = '0';
                 setTimeout(() => {
                     statusText.innerText = "";
