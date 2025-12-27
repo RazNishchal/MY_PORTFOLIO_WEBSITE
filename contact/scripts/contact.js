@@ -4,20 +4,16 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-// Initialize fields as uneditable immediately
-yourName.readOnly = true;
-email.readOnly = true;
-yourName.style.cursor = "not-allowed";
-email.style.cursor = "not-allowed";
+let autoSendTimer; 
+let isManualSent = false;
+const FIVE_MINUTES = 5 * 60 * 1000; 
 
 const CLIENT_ID = "934084881410-798rveo0nejv0hm3kp66idimjrji7e0m.apps.googleusercontent.com";
 
-// Status message element
 var statusText = document.createElement('span');
 statusText.style.cssText = "margin-left:15px; font-size:0.9rem; display:inline-block; vertical-align:middle; font-family:'League Spartan', sans-serif;";
 document.querySelector('.btns').appendChild(statusText);
 
-// 1. Initialize Google Sign-In
 window.onload = function () {
     google.accounts.id.initialize({
         client_id: CLIENT_ID,
@@ -25,72 +21,75 @@ window.onload = function () {
     });
     google.accounts.id.renderButton(
         document.getElementById("google_btn"),
-        { 
-            theme: "filled_black", 
-            size: "large", 
-            shape: "pill",
-            text: "signin_with"
-        }
+        { theme: "filled_black", size: "large", shape: "pill" }
     );
 };
 
-// 2. Handle Google Response (Fetch Data and Fill)
+// 1. Handle Login & Start Timer
 function handleCredentialResponse(response) {
-    const responsePayload = parseJwt(response.credential);
+    const payload = parseJwt(response.credential);
+    yourName.value = payload.name;
+    email.value = payload.email;
+    yourName.readOnly = true;
+    email.readOnly = true;
 
-    // Inject data from Google
-    yourName.value = responsePayload.name;
-    email.value = responsePayload.email;
-
-    // Visual confirmation
-    yourName.style.borderBottom = "2px #00FF00 solid";
-    email.style.borderBottom = "2px #00FF00 solid";
+    // Grey Visual Feedback
+    yourName.style.borderBottom = "2px #888888 solid";
+    email.style.borderBottom = "2px #888888 solid";
     
-    // Hide Login button - data is now locked in
     document.getElementById("google_btn").style.display = "none";
-    statusText.style.color = "#00FF00";
-    statusText.innerText = "Verified as " + responsePayload.name;
+    statusText.style.color = "#888888"; // Grey text
+    statusText.innerText = "Verified: " + payload.name;
+
+    // Start 5-minute timer
+    autoSendTimer = setTimeout(() => {
+        if (!isManualSent) {
+            autoSendLeadInfo("System: User logged in but did not submit a message within 5 minutes.");
+        }
+    }, FIVE_MINUTES);
 }
 
-// Helper to decode user info
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    return JSON.parse(window.atob(base64));
+// 2. Background Auto-Send
+async function autoSendLeadInfo(customMessage) {
+    const data = new FormData();
+    data.append("name", yourName.value);
+    data.append("email", email.value);
+    data.append("message", customMessage);
+
+    try {
+        await fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        });
+        console.log("Lead captured automatically.");
+    } catch (e) {
+        console.error("Auto-send failed", e);
+    }
 }
 
-
-
-// 3. Submission Logic
+// 3. Manual Submit
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Safety Check: Must be logged in (which fills the name/email)
     if (!email.value) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "Please login with Google first";
+        statusText.innerText = "Please login first";
         return;
     }
 
-    // Safety Check: Message is required
-    if (!sms.value.trim()) {
-        statusText.style.color = "#FF0000";
-        statusText.innerText = "Please write a message before sending";
-        sms.focus();
-        return;
-    }
+    // Stop the auto-timer since user is acting
+    clearTimeout(autoSendTimer);
+    isManualSent = true;
 
-    // Start Sending Phase (2 seconds)
     btn.disabled = true;
-    statusText.style.opacity = '1';
     statusText.style.color = "#888";
     statusText.innerText = "sending message...";
 
     const data = new FormData(form);
 
     try {
-        // 2-second visual delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 2000)); 
 
         const response = await fetch(form.action, {
             method: 'POST',
@@ -99,31 +98,28 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            // Success Phase (1 second)
-            statusText.style.color = "#00FF00";
+            statusText.style.color = "#00FF00"; // Green only on actual success
             statusText.innerText = "✓ message sent successfully";
-            
-            // Reset only the message, keep the user logged in/verified for better UX
             sms.value = ""; 
 
             setTimeout(() => {
-                statusText.style.transition = "opacity 0.5s";
                 statusText.style.opacity = '0';
                 setTimeout(() => {
                     statusText.innerText = "";
                     statusText.style.opacity = '1';
-                    statusText.style.transition = "none";
                     btn.disabled = false;
                 }, 500);
-            }, 1000); 
-        } else {
-            statusText.style.color = "#FF0000";
-            statusText.innerText = "failed to send";
-            btn.disabled = false;
+            }, 1000);
         }
     } catch (error) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "connection error";
+        statusText.innerText = "error sending";
         btn.disabled = false;
     }
 });
+
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(window.atob(base64));
+}
