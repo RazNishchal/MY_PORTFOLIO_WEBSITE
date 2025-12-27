@@ -4,79 +4,93 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-// API Configuration
 const API_KEY = "5161dd148ef34d4aaec17e1ad8d6c5b3"; 
+let isEmailValid = false; 
+let debounceTimer;
 
-// 1. Inject Animation Styles
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateX(-10px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-    .status-animation {
-        animation: slideIn 0.4s ease forwards;
-    }
-`;
-document.head.appendChild(style);
-
-// 2. Feedback elements
+// Status span next to button
 var statusText = document.createElement('span');
-statusText.style.marginLeft = '15px';
-statusText.style.fontSize = '0.9rem';
-statusText.style.display = 'inline-block';
-statusText.style.verticalAlign = 'middle';
-statusText.style.fontFamily = "'League Spartan', sans-serif";
+statusText.style.cssText = "margin-left:15px; font-size:0.9rem; display:inline-block; vertical-align:middle; font-family:'League Spartan', sans-serif;";
 document.querySelector('.btns').appendChild(statusText);
 
-// Deep Verification Function
+// Function to ping AbstractAPI
 async function verifyEmailReal(emailVal) {
+    if (!emailVal.includes('@')) return false;
     try {
         const response = await fetch(`https://emailvalidation.abstractapi.com/v1/?api_key=${API_KEY}&email=${emailVal}`);
         const data = await response.json();
-        return data.deliverability === "DELIVERABLE";
+        // Returns true if deliverable or unknown, false only if explicitly undeliverable
+        return data.deliverability !== "UNDELIVERABLE";
     } catch (error) {
-        return true; 
+        return true; // Fail safe
     }
 }
 
+// 1. DYNAMIC PRE-CHECK: Resets every time the user types
+email.addEventListener('input', () => {
+    isEmailValid = false; 
+    statusText.innerText = "";
+    email.parentElement.style.borderBottom = ''; // Reset border while typing
+    
+    // Cancel the previous timer if user starts typing again
+    clearTimeout(debounceTimer);
+
+    // Start a new 2-second countdown
+    debounceTimer = setTimeout(async () => {
+        if (email.value.length > 5) {
+            statusText.style.color = "#888";
+            statusText.innerText = "verifying email...";
+            
+            const real = await verifyEmailReal(email.value);
+            
+            if (!real) {
+                statusText.style.color = "#FF0000";
+                statusText.innerText = "invalid email";
+                email.parentElement.style.borderBottom = '2px #FF0000 solid';
+                isEmailValid = false;
+            } else {
+                statusText.style.color = "#00FF00";
+                statusText.innerText = "valid email";
+                email.parentElement.style.borderBottom = '2px #00FF00 solid';
+                isEmailValid = true;
+                
+                // Optional: Clear "valid email" text after 2 seconds to keep it clean
+                setTimeout(() => { if(isEmailValid) statusText.innerText = ""; }, 2000);
+            }
+        }
+    }, 2000); 
+});
+
+
+
+// 2. SUBMISSION LOGIC
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Reset status and add animation class
-    statusText.classList.remove('status-animation');
-    void statusText.offsetWidth; // Trigger reflow to restart animation
-    statusText.classList.add('status-animation');
-    
-    statusText.style.opacity = '1';
-    statusText.style.color = "#888";
-    statusText.innerText = "Verifying email...";
-    btn.disabled = true;
-
-    // Check for empty fields
     if (!yourName.value || !email.value || !sms.value) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "Please fill all fields";
-        btn.disabled = false;
+        statusText.innerText = "please fill all fields";
         return;
     }
 
-    // Deep Verification
-    const isReal = await verifyEmailReal(email.value);
-
-    if (!isReal) {
+    if (!isEmailValid) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "This email does not exist";
-        email.parentElement.style.borderBottom = '2px #FF0000 solid';
-        btn.disabled = false;
+        statusText.innerText = "invalid email";
         return;
     }
 
-    // Formspree Submission
-    statusText.innerText = "Sending message...";
+    // Start sending phase (2 seconds)
+    btn.disabled = true;
+    statusText.style.opacity = '1';
+    statusText.style.color = "#888";
+    statusText.innerText = "sending message...";
+
     const data = new FormData(form);
 
     try {
+        // Wait 2 seconds for the "sending" animation/text
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
         const response = await fetch(form.action, {
             method: 'POST',
             body: data,
@@ -84,12 +98,13 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            statusText.style.color = "#00FF00"; // Changed to green for success
-            statusText.innerText = "✓ Message sent successfully";
-            email.parentElement.style.borderBottom = '';
+            // Success: show for 1 second
+            statusText.style.color = "#00FF00";
+            statusText.innerText = "✓ message sent successfully";
             form.reset();
-            
-            // 2-second display rule
+            email.parentElement.style.borderBottom = '';
+            isEmailValid = false;
+
             setTimeout(() => {
                 statusText.style.transition = "opacity 0.5s";
                 statusText.style.opacity = '0';
@@ -98,15 +113,15 @@ form.addEventListener('submit', async (e) => {
                     statusText.style.transition = "none";
                     btn.disabled = false;
                 }, 500);
-            }, 2000);
+            }, 1000); 
         } else {
             statusText.style.color = "#FF0000";
-            statusText.innerText = "Message failed to send";
+            statusText.innerText = "failed to send";
             btn.disabled = false;
         }
     } catch (error) {
         statusText.style.color = "#FF0000";
-        statusText.innerText = "Connection error";
+        statusText.innerText = "connection error";
         btn.disabled = false;
     }
 });
