@@ -4,13 +4,21 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
+// Create a status message element to show "Message Sent"
+var statusMessage = document.createElement('div');
+statusMessage.style.marginTop = '20px';
+statusMessage.style.fontFamily = 'League Spartan, sans-serif';
+statusMessage.style.fontWeight = 'bold';
+statusMessage.style.textAlign = 'center';
+form.appendChild(statusMessage);
+
 form.addEventListener('submit', async (e) => {
-    // 1. Prevent the "Go Back" / New Website from opening
-    e.preventDefault();
+    e.preventDefault(); // Stop page from redirecting
 
     var theError = false;
+    statusMessage.innerText = ""; // Reset status message
 
-    // 2. Validation Logic
+    // 1. Validation Logic
     [yourName, email, sms].forEach(item => {
         if (!item.value) {
             item.parentElement.style.borderBottom = '2px #FF0000 solid';
@@ -20,38 +28,49 @@ form.addEventListener('submit', async (e) => {
         }
     });
 
-    if (theError) return;
+    if (theError) {
+        statusMessage.style.color = "#FF0000";
+        statusMessage.innerText = "Please fill all fields.";
+        return;
+    }
 
-    // 3. Prepare the data
+    // 2. Prepare Data
     const data = new FormData(form);
-    
-    // Change Button Text to look cool while sending
     btn.innerText = "SENDING...";
     btn.disabled = true;
 
-    // 4. Send the message in the background (AJAX)
+    // 3. Background Transmission (AJAX)
     try {
         const response = await fetch(form.action, {
             method: 'POST',
             body: data,
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: { 'Accept': 'application/json' }
         });
 
         if (response.ok) {
-            // SUCCESS: Message sent, stay on the same page
-            alert('Transmission Successful! I will get back to you soon.');
-            form.reset(); // Clears the form for the next message
-            btn.innerText = "Send message";
+            // SUCCESS
+            statusMessage.style.color = "#00FF00"; // Green for success
+            statusMessage.innerText = "MESSAGE SENT SUCCESSFULLY!";
+            form.reset(); 
+            
+            // Revert button after 3 seconds
+            setTimeout(() => {
+                btn.innerText = "Send message";
+                btn.disabled = false;
+            }, 3000);
+
         } else {
-            // ERROR from server
-            alert('Oops! There was a problem. Please try again.');
+            // SERVER ERROR
+            statusMessage.style.color = "#FF0000";
+            statusMessage.innerText = "MESSAGE WAS NOT SENT. TRY AGAIN.";
+            btn.disabled = false;
+            btn.innerText = "Send message";
         }
     } catch (error) {
         // NETWORK ERROR
-        alert('Connection error. Please check your internet.');
-    } finally {
+        statusMessage.style.color = "#FF0000";
+        statusMessage.innerText = "NETWORK ERROR. MESSAGE WAS NOT SENT.";
         btn.disabled = false;
+        btn.innerText = "Send message";
     }
 });
