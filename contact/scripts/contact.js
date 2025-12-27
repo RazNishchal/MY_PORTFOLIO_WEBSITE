@@ -4,21 +4,26 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-// Create a status message element to show "Message Sent"
-var statusMessage = document.createElement('div');
-statusMessage.style.marginTop = '20px';
-statusMessage.style.fontFamily = 'League Spartan, sans-serif';
-statusMessage.style.fontWeight = 'bold';
-statusMessage.style.textAlign = 'center';
-form.appendChild(statusMessage);
+// 1. Create a span for the message next to the button
+var statusText = document.createElement('span');
+statusText.style.marginLeft = '15px';
+statusText.style.fontFamily = 'inherit';
+statusText.style.fontSize = '0.9rem';
+statusText.style.transition = 'opacity 0.4s';
+statusText.style.verticalAlign = 'middle';
+
+// 2. Add the span into the button container
+var btnContainer = document.querySelector('.btns');
+btnContainer.appendChild(statusText);
 
 form.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Stop page from redirecting
+    e.preventDefault(); 
 
     var theError = false;
-    statusMessage.innerText = ""; // Reset status message
+    statusText.innerText = ""; 
+    statusText.style.opacity = '1';
 
-    // 1. Validation Logic
+    // Validation
     [yourName, email, sms].forEach(item => {
         if (!item.value) {
             item.parentElement.style.borderBottom = '2px #FF0000 solid';
@@ -29,17 +34,19 @@ form.addEventListener('submit', async (e) => {
     });
 
     if (theError) {
-        statusMessage.style.color = "#FF0000";
-        statusMessage.innerText = "Please fill all fields.";
+        statusText.style.color = "#FF0000";
+        statusText.innerText = "Please fill all fields";
         return;
     }
 
-    // 2. Prepare Data
+    // Prepare Data
     const data = new FormData(form);
-    btn.innerText = "SENDING...";
+    
+    // Show "Sending message..." next to button
     btn.disabled = true;
+    statusText.style.color = "#888"; 
+    statusText.innerText = "Sending message...";
 
-    // 3. Background Transmission (AJAX)
     try {
         const response = await fetch(form.action, {
             method: 'POST',
@@ -48,29 +55,26 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            // SUCCESS
-            statusMessage.style.color = "#00FF00"; // Green for success
-            statusMessage.innerText = "MESSAGE SENT SUCCESSFULLY!";
+            // Success
+            statusText.style.color = "#ffffff"; 
+            statusText.innerText = "Message sent successfully";
             form.reset(); 
             
-            // Revert button after 3 seconds
+            // Wait 2 seconds, then fade out and reset button
             setTimeout(() => {
-                btn.innerText = "Send message";
+                statusText.style.opacity = '0';
                 btn.disabled = false;
-            }, 3000);
+            }, 2000);
 
         } else {
-            // SERVER ERROR
-            statusMessage.style.color = "#FF0000";
-            statusMessage.innerText = "MESSAGE WAS NOT SENT. TRY AGAIN.";
+            // Error
+            statusText.style.color = "#FF0000";
+            statusText.innerText = "Message was not sent";
             btn.disabled = false;
-            btn.innerText = "Send message";
         }
     } catch (error) {
-        // NETWORK ERROR
-        statusMessage.style.color = "#FF0000";
-        statusMessage.innerText = "NETWORK ERROR. MESSAGE WAS NOT SENT.";
+        statusText.style.color = "#FF0000";
+        statusText.innerText = "Connection error";
         btn.disabled = false;
-        btn.innerText = "Send message";
     }
 });
