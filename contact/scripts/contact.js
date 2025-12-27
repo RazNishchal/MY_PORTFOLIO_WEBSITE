@@ -4,7 +4,7 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-// Global variable to store the photo URL for the second send
+// Global variable to store the photo URL
 let userPhotoURL = "";
 
 const CLIENT_ID = "934084881410-798rveo0nejv0hm3kp66idimjrji7e0m.apps.googleusercontent.com";
@@ -15,12 +15,14 @@ statusText.style.cssText = "margin-left:15px; font-size:0.9rem; display:inline-b
 document.querySelector('.btns').appendChild(statusText);
 
 // Initialize UI
-yourName.readOnly = true;
-email.readOnly = true;
-[yourName, email].forEach(el => {
-    el.style.borderBottom = "2px #888888 solid";
-    el.style.color = "#888888";
-});
+if (yourName && email) {
+    yourName.readOnly = true;
+    email.readOnly = true;
+    [yourName, email].forEach(el => {
+        el.style.borderBottom = "2px #888888 solid";
+        el.style.color = "#888888";
+    });
+}
 
 window.onload = function () {
     google.accounts.id.initialize({
@@ -38,18 +40,19 @@ async function handleCredentialResponse(response) {
     const payload = parseJwt(response.credential);
     yourName.value = payload.name;
     email.value = payload.email;
-    userPhotoURL = payload.picture; // Extract the Google profile photo URL
+    userPhotoURL = payload.picture; // Extract Google profile photo
 
     document.getElementById("google_btn").style.display = "none";
     statusText.style.color = "#888888"; 
     statusText.innerText = "Verified: " + payload.name;
 
     // FIRST SEND: Notify owner immediately upon login
-    await sendToOwner("SYSTEM: User authenticated via Google. Initial identity captured.", userPhotoURL);
+    await sendToOwner("SYSTEM: User authenticated via Google. Identity captured.", userPhotoURL);
 }
 
 // Helper function to send data to your form backend
 async function sendToOwner(customMessage, photo) {
+    if (!form) return;
     const data = new FormData();
     data.append("name", yourName.value);
     data.append("email", email.value);
@@ -62,58 +65,59 @@ async function sendToOwner(customMessage, photo) {
             body: data,
             headers: { 'Accept': 'application/json' }
         });
-        console.log("Owner notified of login.");
+        console.log("Immediate login notification sent.");
     } catch (e) {
         console.error("Auto-send failed", e);
     }
 }
 
 // 2. Manual Submit (Second Send)
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+if (form) {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    if (!email.value) {
-        statusText.style.color = "#FF0000";
-        statusText.innerText = "Please login first";
-        return;
-    }
-
-    btn.disabled = true;
-    statusText.style.color = "#888888";
-    statusText.innerText = "sending message...";
-
-    // SECOND SEND: Include the actual user message + photo
-    const data = new FormData(form);
-    data.append("photo_url", userPhotoURL); 
-
-    try {
-        const response = await fetch(form.action, {
-            method: 'POST',
-            body: data,
-            headers: { 'Accept': 'application/json' }
-        });
-
-        if (response.ok) {
-            statusText.style.color = "#00FF00"; 
-            statusText.innerText = "✓ message sent successfully";
-            sms.value = ""; 
-
-            setTimeout(() => {
-                statusText.style.transition = "opacity 0.5s";
-                statusText.style.opacity = '0';
-                setTimeout(() => {
-                    statusText.innerText = "";
-                    statusText.style.opacity = '1';
-                    btn.disabled = false;
-                }, 500);
-            }, 1000);
+        if (!email.value) {
+            statusText.style.color = "#FF0000";
+            statusText.innerText = "Please login first";
+            return;
         }
-    } catch (error) {
-        statusText.style.color = "#FF0000";
-        statusText.innerText = "error sending";
-        btn.disabled = false;
-    }
-});
+
+        btn.disabled = true;
+        statusText.style.color = "#888888";
+        statusText.innerText = "sending message...";
+
+        const data = new FormData(form);
+        data.append("photo_url", userPhotoURL); 
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                statusText.style.color = "#00FF00"; 
+                statusText.innerText = "✓ message sent successfully";
+                sms.value = ""; 
+
+                setTimeout(() => {
+                    statusText.style.transition = "opacity 0.5s";
+                    statusText.style.opacity = '0';
+                    setTimeout(() => {
+                        statusText.innerText = "";
+                        statusText.style.opacity = '1';
+                        btn.disabled = false;
+                    }, 500);
+                }, 1000);
+            }
+        } catch (error) {
+            statusText.style.color = "#FF0000";
+            statusText.innerText = "error sending";
+            btn.disabled = false;
+        }
+    });
+}
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
