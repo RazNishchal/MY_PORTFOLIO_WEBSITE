@@ -4,9 +4,8 @@ var sms = document.getElementById('sms');
 var btn = document.getElementById('btn');
 var form = document.querySelector('.form');
 
-let autoSendTimer; 
-let isManualSent = false;
-const FIVE_MINUTES = 5 * 60 * 1000; 
+// Global variable to store the photo URL for the second send
+let userPhotoURL = "";
 
 const CLIENT_ID = "934084881410-798rveo0nejv0hm3kp66idimjrji7e0m.apps.googleusercontent.com";
 
@@ -33,31 +32,28 @@ window.onload = function () {
     );
 };
 
-// 1. Handle Login & Start Timer
-function handleCredentialResponse(response) {
+// 1. Handle Login & Immediate Notification
+async function handleCredentialResponse(response) {
     const payload = parseJwt(response.credential);
     yourName.value = payload.name;
     email.value = payload.email;
+    userPhotoURL = payload.picture; // Extract the Google profile photo URL
 
     document.getElementById("google_btn").style.display = "none";
     statusText.style.color = "#888888"; 
     statusText.innerText = "Verified: " + payload.name;
 
-    // IMPORTANT: Start the 5-minute lead capture timer
-    autoSendTimer = setTimeout(() => {
-        // Only auto-send if the user hasn't clicked "Send Message" yet
-        if (!isManualSent) {
-            autoSendLeadInfo("SYSTEM NOTIFICATION: User authenticated via Google but abandoned the form before typing a message.");
-        }
-    }, FIVE_MINUTES);
+    // FIRST SEND: Notify owner immediately upon login
+    await sendToOwner("SYSTEM: User authenticated via Google. Initial identity captured.", userPhotoURL);
 }
 
-// 2. Background Auto-Send (Lead Capture)
-async function autoSendLeadInfo(customMessage) {
+// Helper function to send data to your form backend
+async function sendToOwner(customMessage, photo) {
     const data = new FormData();
     data.append("name", yourName.value);
     data.append("email", email.value);
     data.append("message", customMessage);
+    data.append("photo_url", photo); // This makes the photo link visible in your email
 
     try {
         await fetch(form.action, {
@@ -65,13 +61,13 @@ async function autoSendLeadInfo(customMessage) {
             body: data,
             headers: { 'Accept': 'application/json' }
         });
-        console.log("Lead captured automatically.");
+        console.log("Owner notified of login.");
     } catch (e) {
         console.error("Auto-send failed", e);
     }
 }
 
-// 3. Manual Submit
+// 2. Manual Submit (Second Send)
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -81,15 +77,13 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
-    // CRITICAL: Stop the auto-timer so we don't send the "System" message later
-    clearTimeout(autoSendTimer);
-    isManualSent = true;
-
     btn.disabled = true;
     statusText.style.color = "#888888";
     statusText.innerText = "sending message...";
 
+    // SECOND SEND: Include the actual user message + identity info + photo
     const data = new FormData(form);
+    data.append("photo_url", userPhotoURL); 
 
     try {
         const response = await fetch(form.action, {
