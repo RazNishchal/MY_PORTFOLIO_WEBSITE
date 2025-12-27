@@ -9,6 +9,7 @@ let userPhotoURL = "";
 
 const CLIENT_ID = "934084881410-798rveo0nejv0hm3kp66idimjrji7e0m.apps.googleusercontent.com";
 
+// Setup Status Text
 var statusText = document.createElement('span');
 statusText.style.cssText = "margin-left:15px; font-size:0.9rem; display:inline-block; vertical-align:middle; font-family:'League Spartan', sans-serif;";
 document.querySelector('.btns').appendChild(statusText);
@@ -53,7 +54,7 @@ async function sendToOwner(customMessage, photo) {
     data.append("name", yourName.value);
     data.append("email", email.value);
     data.append("message", customMessage);
-    data.append("photo_url", photo); // This makes the photo link visible in your email
+    data.append("photo_url", photo); 
 
     try {
         await fetch(form.action, {
@@ -81,7 +82,7 @@ form.addEventListener('submit', async (e) => {
     statusText.style.color = "#888888";
     statusText.innerText = "sending message...";
 
-    // SECOND SEND: Include the actual user message + identity info + photo
+    // SECOND SEND: Include the actual user message + photo
     const data = new FormData(form);
     data.append("photo_url", userPhotoURL); 
 
