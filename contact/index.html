@@ -11,24 +11,38 @@
     />
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/normalize.css" />
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      #google_btn {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+      }
+      /* Optional: Style the input when it becomes read-only */
+      input[readonly] {
+        background-color: rgba(255, 255, 255, 0.05);
+        cursor: not-allowed;
+        color: #00FF00;
+      }
+    </style>
   </head>
   <body>
     <div class="home-banner">
@@ -74,6 +88,9 @@
         <div class="about-home-title">Contact me</div>
 
         <form class="form" action="https://formspree.io/f/mjgvwwov" method="POST">
+          
+          <div id="google_btn"></div>
+
           <label class="label" for="name">
             <span class="label-text" id="label-name">Name</span>
             <input
