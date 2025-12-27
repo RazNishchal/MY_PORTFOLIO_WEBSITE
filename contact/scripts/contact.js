@@ -15,56 +15,68 @@ statusText.style.fontSize = '0.9rem';
 statusText.style.transition = 'opacity 0.4s ease';
 document.querySelector('.btns').appendChild(statusText);
 
-// List of common fake/disposable email domains to block
-const bannedDomains = ['test.com', 'example.com', 'mailinator.com', 'tempmail.com', '10minutemail.com'];
+// 1. BLOCKED DOMAINS (Common fake/bot providers)
+const blockedDomains = [
+    'test.com', 'example.com', 'mailinator.com', 'tempmail.com', 
+    '10minutemail.com', 'trashmail.com', 'guerrillamail.com'
+];
 
-function validateRealEmail(emailVal) {
+// 2. REAL-TIME VALIDATION FUNCTION
+function checkEmailReality(emailVal) {
+    const parts = emailVal.split('@');
+    if (parts.length !== 2) return "format_error";
+    
+    const [user, domain] = [parts[0].toLowerCase(), parts[1].toLowerCase()];
+
+    // Block common fake usernames
+    const fakeUsers = ['admin', 'test', 'tester', 'fake', 'asdf', 'none'];
+    if (fakeUsers.includes(user) || user.length < 2) return "fake_user";
+
+    // Block disposable domains
+    if (blockedDomains.includes(domain)) return "blocked_domain";
+
+    // Standard Format Check
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!pattern.test(emailVal)) return "invalid";
-    
-    const domain = emailVal.split('@')[1].toLowerCase();
-    if (bannedDomains.includes(domain)) return "fake";
-    
+    if (!pattern.test(emailVal)) return "format_error";
+
     return "valid";
 }
 
-// Real-time checking
+// 3. LISTEN FOR INPUT
 email.addEventListener('input', () => {
-    const result = validateRealEmail(email.value);
+    const status = checkEmailReality(email.value);
     
     if (email.value === "") {
         emailFeedback.innerText = "";
-    } else if (result === "valid") {
+    } else if (status === "valid") {
         emailFeedback.style.color = "#00FF00";
         emailFeedback.innerText = "valid email address";
-    } else if (result === "fake") {
-        emailFeedback.style.color = "#FF0000";
-        emailFeedback.innerText = "disposable/fake email not allowed";
     } else {
         emailFeedback.style.color = "#FF0000";
-        emailFeedback.innerText = "enter valid email";
+        emailFeedback.innerText = "please provide a real email address";
     }
 });
 
+
+
+// 4. SUBMISSION LOGIC
 form.addEventListener('submit', async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     statusText.style.opacity = '1';
 
-    const emailStatus = validateRealEmail(email.value);
+    const status = checkEmailReality(email.value);
 
-    if (emailStatus !== "valid") {
+    if (status !== "valid") {
         statusText.style.color = "#FF0000";
-        statusText.innerText = emailStatus === "fake" ? "use a real email" : "invalid email";
+        statusText.innerText = "invalid or fake email";
         return;
     }
 
-    // Prepare Data
+    // Prepare Transmission
     const data = new FormData(form);
     btn.disabled = true;
-    statusText.style.color = "#888"; 
+    statusText.style.color = "#888";
     statusText.innerText = "Sending message...";
-
-    
 
     try {
         const response = await fetch(form.action, {
@@ -74,10 +86,10 @@ form.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            statusText.style.color = "#ffffff"; 
+            statusText.style.color = "#ffffff";
             statusText.innerText = "Message sent successfully";
             emailFeedback.innerText = "";
-            form.reset(); 
+            form.reset();
             
             setTimeout(() => {
                 statusText.style.opacity = '0';
@@ -86,10 +98,9 @@ form.addEventListener('submit', async (e) => {
                     btn.disabled = false;
                 }, 400);
             }, 2000);
-
         } else {
             statusText.style.color = "#FF0000";
-            statusText.innerText = "Submission failed";
+            statusText.innerText = "Message failed to send";
             btn.disabled = false;
         }
     } catch (error) {
