@@ -68,7 +68,7 @@ img {
         font-weight: 800;
         letter-spacing: 3px;
         color: #000;
-        background: #005;
+        background: #f0e7e6;
         text-decoration: none;
         text-transform: uppercase;
         border: 1px solid #fff;
@@ -81,6 +81,7 @@ img {
 
       .drive-button:hover {
         color: #000;
+        font-size: 15px;
         background: transparent;
         box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
         transform: translateY(-5px);
