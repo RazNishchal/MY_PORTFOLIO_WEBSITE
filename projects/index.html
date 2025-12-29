@@ -26,7 +26,7 @@
         margin: 0 auto;
       }
 
-      /* --- HEADER RESPONSIVENESS --- */
+      /* --- HEADER --- */
       .header {
         padding-top: clamp(80px, 15vh, 120px);
         text-align: center;
@@ -45,7 +45,7 @@
         margin-top: 10px;
       }
 
-      /* --- PROJECT GRID (3:3 on Desktop) --- */
+      /* --- PROJECT GRID --- */
       .projects {
         display: grid;
         grid-template-columns: repeat(3, 1fr); 
@@ -54,7 +54,7 @@
         width: 100%;
       }
 
-      /* --- PROJECT CARD STYLE --- */
+      /* --- PROJECT CARD --- */
       .project {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -69,23 +69,28 @@
         border-color: rgba(255, 255, 255, 0.3);
       }
 
-      /* Desktop Project Title Font */
       .project-title {
         font-family: 'League Spartan'; 
         color: #888; 
-        margin-bottom: 10px;
-        font-size: 1.2rem;
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
+      /* --- IMAGE HEIGHT FIX --- */
       .project-image {
         width: 100%;
         overflow: hidden;
         border-radius: 10px;
+        background: #111; /* Fallback color */
       }
 
       .project-image img {
         width: 100%; 
-        height: auto; 
+        height: auto;
+        aspect-ratio: 16 / 9; /* Forces images to be the same height */
+        object-fit: cover;    /* Prevents stretching/distortion */
         display: block;
         transition: transform 0.6s ease;
       }
@@ -128,7 +133,7 @@
       .footer-title { display: flex; align-items: center; gap: 20px; }
       .footer-texts a { color: #888; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 5px; }
 
-      /* --- MOBILE OVERRIDES (REQUESTED CHANGES) --- */
+      /* --- MOBILE OVERRIDES --- */
       @media (max-width: 1024px) {
         .projects { grid-template-columns: repeat(2, 1fr); }
       }
@@ -136,17 +141,21 @@
       @media (max-width: 768px) {
         .container { width: 92%; }
 
-        /* Resizing the card width so the image container isn't too large on mobile */
+        /* Slower scaling for text and narrowed card */
         .project {
-            width: 85%;
+            width: 88%;
             margin: 0 auto; 
-            padding: 15px;
+            padding: 12px;
         }
 
-        /* Decreasing project font size for mobile only */
         .project-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 8px;
+        }
+
+        /* Adjust image aspect ratio for mobile to take less vertical space */
+        .project-image img {
+            aspect-ratio: 3 / 2; 
         }
 
         .projects { 
@@ -216,31 +225,7 @@
             <div class="project-title">PORTFOLIO WEBSITE</div>
             <div class="project-image"><a href="https://www.nishchalrajsubedi.com.np/" target="_blank"><img src="../images/Portfolio.png" alt="Portfolio" /></a></div>
           </div>
-          <div class="project">
-            <div class="project-title">CURRENCY CONVERTER</div>
-            <div class="project-image"><a href="https://currency-converter-fawn-gamma.vercel.app/" target="_blank"><img src="../images/Currency.png" alt="Currency" /></a></div>
           </div>
-          <div class="project">
-            <div class="project-title">WEATHER APP</div>
-            <div class="project-image"><a href="https://weather-app-ten-gilt-38.vercel.app/" target="_blank"><img src="../images/WeatherApp.png" alt="WeatherApp" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title">TASK TRACKER</div>
-            <div class="project-image"><a href="https://tasktrackernishchal.vercel.app/" target="_blank"><img src="../images/TaskTracker.png" alt="TaskTracker" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title">FORM VALIDATION</div>
-            <div class="project-image"><a href="https://gleaming-syrniki-65735c.netlify.app/" target="_blank"><img src="../images/FormValidation.png" alt="FormValidation" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title">CONFESS NOTE</div>
-            <div class="project-image"><a href="https://tranquil-biscuit-433084.netlify.app/" target="_blank"><img src="../images/ConfessNote.png" alt="ConfessNote" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title">NEPSE CALCULATOR</div>
-            <div class="project-image"><a href="https://delicate-pie-90da05.netlify.app/" target="_blank"><img src="../images/NepseCalculator.png" alt="NepseCalculator" /></a></div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -252,7 +237,6 @@
             <a href="../about/index.html">ABOUT</a>
             <a href="../contact/index.html">CONTACT</a>
           </div>
-
           <div class="footer-title">
             <img src="../images/rpLogoWhite.svg" alt="logo" width="40" />
             <div class="footer-texts">
