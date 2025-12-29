@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects</title>
+    <title>Projects | Nishchal Raj Subedi</title>
     <link rel="shortcut icon" href="../images/rpLogoBlack.svg" type="image/x-icon" />
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/normalize.css" />
@@ -18,6 +18,7 @@
         color: #fff;
         margin: 0;
         overflow-x: hidden;
+        font-family: 'Roboto', sans-serif;
       }
 
       .container {
@@ -26,71 +27,108 @@
         margin: 0 auto;
       }
 
-      /* --- NAVIGATION PANEL SPACING FIX --- */
+      /* --- NAVIGATION HEADER --- */
       .home-banner {
         display: flex;
         justify-content: space-between;
-        padding: 25px 5%; /* Using % for consistent side margins */
         align-items: center;
+        padding: 25px 5%; /* Side margin for the burger icon */
+        position: relative;
+        z-index: 100;
       }
 
-      /* Fixed Menu Container */
+      .home-panel {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+      }
+
+      /* --- SIDE MENU --- */
       .menu {
         position: fixed;
         right: 0;
         top: 0;
         height: 100%;
-        width: 280px; /* Standard side menu width */
+        width: 280px;
         background: #fff;
         color: #000;
-        z-index: 1000;
-        padding: 40px 30px; /* Added right padding for internal content */
+        z-index: 2000;
+        padding: 40px 30px; /* Padding from the right edge */
         box-sizing: border-box;
-        transform: translateX(100%); /* Hidden by default - logic usually in script.js */
-        transition: transform 0.4s ease;
+        transform: translateX(100%); 
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .home-panel-closes {
         display: flex;
         justify-content: flex-end;
+        cursor: pointer;
         margin-bottom: 30px;
-        padding-right: 10px; /* Push the X icon slightly away from edge */
       }
+
+      .menu-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 40px;
+      }
+
+      .list-menu ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .list-menu li {
+        margin-bottom: 20px;
+      }
+
+      .list-menu a {
+        text-decoration: none;
+        color: #000;
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: 0.3s;
+      }
+
+      .list-menu a:hover { opacity: 0.6; }
 
       .menu-footer {
         position: absolute;
         bottom: 30px;
-        left: 30px;
-        right: 30px; /* Ensures text stays within the container */
         font-size: 0.8rem;
+        color: #666;
       }
 
-      /* --- HEADER --- */
+      /* --- HEADER SECTION --- */
       .header {
-        padding-top: clamp(80px, 15vh, 120px);
+        padding: 80px 0 40px;
         text-align: center;
       }
 
       .header-title {
         font-family: 'League Spartan', sans-serif;
         font-size: clamp(2.5rem, 10vw, 6rem);
+        font-weight: 700;
         margin: 0;
       }
 
       .header-text {
-        font-size: clamp(0.8rem, 3vw, 1.2rem);
-        letter-spacing: 5px;
+        font-size: clamp(0.7rem, 2vw, 1rem);
+        letter-spacing: 8px;
         color: #888;
         margin-top: 10px;
       }
 
-      /* --- PROJECT GRID --- */
+      /* --- PROJECTS GRID --- */
       .projects {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); 
+        grid-template-columns: repeat(3, 1fr);
         gap: 30px;
         margin-top: 50px;
-        width: 100%;
       }
 
       .project {
@@ -98,21 +136,19 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 15px;
         padding: 20px;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.4s ease;
       }
 
       .project:hover {
         transform: translateY(-10px);
         background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 255, 255, 0.3);
       }
 
       .project-title {
-        font-family: 'League Spartan'; 
-        color: #888; 
+        font-family: 'League Spartan', sans-serif;
+        color: #888;
         margin-bottom: 12px;
         font-size: 1.1rem;
-        text-transform: uppercase;
         letter-spacing: 1px;
       }
 
@@ -123,35 +159,35 @@
       }
 
       .project-image img {
-        width: 100%; 
-        aspect-ratio: 16 / 9; 
+        width: 100%;
+        aspect-ratio: 16 / 9; /* Ensures all images are same height */
         object-fit: cover;
         display: block;
         transition: transform 0.6s ease;
       }
 
       .project:hover .project-image img {
-        transform: scale(1.05);
+        transform: scale(1.08);
       }
 
-      /* --- DRIVE BUTTON --- */
+      /* --- DOWNLOAD BUTTON --- */
       .drive-button {
         display: block;
         width: fit-content;
-        margin: 0 auto 40px;
+        margin: 0 auto 50px;
         background: #fff;
         color: #000;
-        padding: 12px 30px;
+        padding: 14px 35px;
         border-radius: 50px;
         text-decoration: none;
-        font-weight: bold;
+        font-weight: 700;
         transition: 0.3s;
       }
 
       /* --- FOOTER --- */
       .footer {
-        padding: 60px 0;
-        border-top: 1px solid #222;
+        padding: 80px 0 40px;
+        border-top: 1px solid #1a1a1a;
         margin-top: 80px;
       }
 
@@ -159,35 +195,34 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
       }
 
-      .footer-frame { display: flex; gap: 20px; }
-      .footer-frame a { color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; }
-
-      .footer-title { display: flex; align-items: center; gap: 20px; }
-      .footer-texts a { color: #888; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 5px; }
+      .footer-texts a {
+        color: #666;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 5px;
+      }
 
       /* --- MOBILE OVERRIDES --- */
       @media (max-width: 768px) {
         .container { width: 92%; }
 
-        /* Menu tweak for smaller screens */
-        .menu { width: 250px; }
-
         .project {
-            width: 85%;
+            width: 85%; /* Reduced card width for focus */
             margin: 0 auto; 
             padding: 15px;
         }
 
         .project-title {
-            font-size: 0.85rem;
+            font-size: 0.9rem; /* Smaller font on mobile */
             margin-bottom: 8px;
         }
 
         .project-image img {
-            aspect-ratio: 3 / 2;
+            aspect-ratio: 3 / 2; /* Adjust height for mobile screens */
         }
 
         .projects { 
@@ -195,6 +230,8 @@
           gap: 25px;
         }
 
+        .menu { width: 80%; max-width: 300px; }
+        
         .footer-content {
           flex-direction: column;
           text-align: center;
@@ -205,26 +242,26 @@
   <body>
     <div class="home-banner">
       <div class="home-icon">
-        <img src="../images/rpLogoWhite.svg" alt="logo" width="45" />
+        <img src="../images/rpLogoWhite.svg" alt="logo" width="40" />
       </div>
-      <div class="home-panel" id="home-panel" style="cursor:pointer; padding-right: 5px;">
-        <img src="../images/3_white.svg" alt="menu_burger" width="30" />
+      <div class="home-panel" id="home-panel">
+        <img src="../images/3_white.svg" alt="menu" width="30" />
       </div>
     </div>
 
     <div class="menu" id="menu">
-      <div class="home-panel-closes" id="home-panel-closes" style="cursor:pointer;">
-        <img src="../images/X_white.svg" alt="x" width="25" />
+      <div class="home-panel-closes" id="home-panel-closes">
+        <img src="../images/X_white.svg" alt="close" width="25" style="filter: invert(1);"/>
       </div>
-      <div class="menu-title" style="margin-bottom:40px; display:flex; align-items:center; gap:10px; font-weight:bold;">
+      <div class="menu-title">
         <img src="../images/rpLogoBlack.svg" alt="logo" width="30"/> Portfolio
       </div>
       <div class="list-menu">
-        <ul style="list-style:none; padding:0;">
-          <li style="margin-bottom:20px;"><a href="../project_home/index.html" style="text-decoration:none; color:#000; font-weight:500;">Home</a></li>
-          <li style="margin-bottom:20px;"><a href="../about/index.html" style="text-decoration:none; color:#000; font-weight:500;">About</a></li>
-          <li style="margin-bottom:20px;"><a href="../contact/index.html" style="text-decoration:none; color:#000; font-weight:500;">Contact</a></li>
-          <li><a href="../index.html" style="text-decoration:none; color:#000; font-weight:500;">Exit</a></li>
+        <ul>
+          <li><a href="../project_home/index.html">Home</a></li>
+          <li><a href="../about/index.html">About</a></li>
+          <li><a href="../contact/index.html">Contact</a></li>
+          <li><a href="../index.html">Exit</a></li>
         </ul>
       </div>
       <div class="menu-footer"><span>Created by: </span> @RazNishchal</div>
@@ -232,10 +269,8 @@
 
     <header class="header">
       <div class="container">
-        <div class="header-content">
-          <div class="header-title">MY PROJECTS</div>
-          <div class="header-text">MADE WITH LOVE</div>
-        </div>
+        <div class="header-title">MY PROJECTS</div>
+        <div class="header-text">MADE WITH LOVE</div>
       </div>
     </header>
 
@@ -244,7 +279,7 @@
         <a href="https://drive.google.com/uc?export=download&id=16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj" download="Nishchal_Raj_Subedi_Resume.pdf" class="drive-button" target="_blank">
           Download CV
         </a>
-        
+
         <div class="projects">
           <div class="project">
             <div class="project-title">KAVRE GUIDE</div>
@@ -289,17 +324,12 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <div class="footer-frame">
-            <a href="../project_home/index.html">HOME</a>
-            <a href="../about/index.html">ABOUT</a>
-            <a href="../contact/index.html">CONTACT</a>
-          </div>
           <div class="footer-title">
             <img src="../images/rpLogoWhite.svg" alt="logo" width="40" />
-            <div class="footer-texts">
-              <a href="mailto:nishchalrj2316@gmail.com">nishchalrj2316@gmail.com</a>
-              <a href="tel:+9779865512865">+977 9865512865</a>
-            </div>
+          </div>
+          <div class="footer-texts">
+            <a href="mailto:nishchalrj2316@gmail.com">nishchalrj2316@gmail.com</a>
+            <a href="tel:+9779865512865">+977 9865512865</a>
           </div>
         </div>
       </div>
