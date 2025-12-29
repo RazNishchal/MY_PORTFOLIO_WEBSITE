@@ -19,7 +19,7 @@
         background: #000;
         color: #fff;
         margin: 0;
-        overflow-x: hidden; /* Prevents horizontal scroll */
+        overflow-x: hidden;
       }
 
       .container {
@@ -30,8 +30,8 @@
 
       /* HEADER: Scalable and Pushed Down */
       .header {
-        padding-top: clamp(80px, 15vh, 150px);
-        padding-bottom: 40px;
+        padding-top: clamp(100px, 18vh, 180px);
+        padding-bottom: 50px;
         text-align: center;
       }
 
@@ -43,20 +43,36 @@
       }
 
       .header-text {
-        font-size: clamp(0.8rem, 2.5vw, 1.2rem);
-        letter-spacing: 5px;
+        font-size: clamp(0.7rem, 2.5vw, 1.1rem);
+        letter-spacing: clamp(4px, 1vw, 8px);
         color: #888;
         margin-top: 15px;
+        text-transform: uppercase;
       }
 
-      /* ABOUT CONTENT CARD */
-      .profile-card {
+      /* --- THE CARD STRUCTURES --- */
+      .profile-card, .info-card {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 20px;
-        padding: clamp(20px, 5vw, 45px);
-        margin-bottom: 40px;
         backdrop-filter: blur(10px);
+      }
+
+      .profile-card {
+        padding: clamp(25px, 5vw, 45px);
+        margin-bottom: 40px;
+      }
+
+      /* INFO GRID: Stacks on mobile */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .info-card {
+        padding: 35px;
       }
 
       /* TECH STACK: Responsive Flex */
@@ -64,16 +80,8 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: clamp(15px, 4vw, 35px);
-        margin-bottom: 60px;
-      }
-
-      /* INFO GRID: Stacks on mobile */
-      .info-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
-        margin-bottom: 50px;
+        gap: clamp(20px, 5vw, 40px);
+        margin-bottom: 80px;
       }
 
       /* BUTTONS: Center and Stack */
@@ -84,7 +92,31 @@
         margin-bottom: 40px;
       }
 
-      /* FOOTER CORE */
+      .btn-primary {
+        background: #fff;
+        color: #000;
+        display: flex;
+        align-items: center;
+        padding: 12px 28px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+
+      .btn-secondary {
+        display: flex;
+        align-items: center;
+        padding: 12px 28px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.9rem;
+        border: 1px solid #fff;
+        color: #fff;
+      }
+
+      /* --- FOOTER: FULLY RESPONSIVE --- */
       .footer {
         padding: 60px 0;
         border-top: 1px solid #222;
@@ -95,12 +127,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 30px;
+        gap: 40px;
       }
 
       .footer-frame {
         display: flex;
-        gap: 25px;
+        gap: 30px;
       }
 
       .footer-frame a {
@@ -121,12 +153,34 @@
         text-decoration: none;
         font-size: 0.9rem;
         display: block;
+        margin-bottom: 5px;
       }
 
       /* --- MOBILE BREAKPOINTS --- */
-      @media (max-width: 768px) {
+      @media (max-width: 850px) {
         .info-grid {
           grid-template-columns: 1fr; /* Stacks Projects & Leadership */
+        }
+
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+          gap: 45px;
+        }
+
+        .footer-frame {
+          justify-content: center;
+          width: 100%;
+          order: 2;
+        }
+
+        .footer-title {
+          flex-direction: column;
+          order: 1;
+        }
+
+        .footer-texts {
+          text-align: center;
         }
 
         .btns {
@@ -134,38 +188,10 @@
           align-items: center;
         }
 
-        .btn {
-          width: 100%;
-          max-width: 300px;
-        }
-
-        .btn a {
-          width: 100%;
-          justify-content: center;
-          box-sizing: border-box;
-        }
-
-        /* Footer Mobile Fix */
-        .footer-content {
-          flex-direction: column;
-          text-align: center;
-          gap: 40px;
-        }
-
-        .footer-frame {
-          order: 2; /* Links below logo */
-          justify-content: center;
-          width: 100%;
-        }
-
-        .footer-title {
-          order: 1;
-          flex-direction: column;
-          gap: 15px;
-        }
-
-        .footer-texts {
-          text-align: center;
+        .btn-primary, .btn-secondary {
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
         }
       }
     </style>
@@ -212,7 +238,7 @@
       <div class="container">
         
         <div class="profile-card">
-          <h2 style="font-family: 'League Spartan', sans-serif; color: #fff; margin-bottom: 15px;">Professional Profile</h2>
+          <h2 style="font-family: 'League Spartan', sans-serif; color: #fff; font-size: 2.2rem; margin-top: 0;">Professional Profile</h2>
           <p style="color: #ccc; line-height: 1.8; font-size: 1.1rem; margin-bottom: 25px;">
             I am a motivated web developer with a sound knowledge of both <strong>frontend and backend development</strong>. 
             Currently pursuing my <strong>Bachelor in Computer Engineering</strong> at <strong>Kathmandu University</strong> (CGPA: 3.7), 
@@ -230,8 +256,8 @@
           </div>
         </div>
 
-        <div style="text-align: center;">
-            <h3 style="font-family: 'League Spartan', sans-serif; color: #fff; letter-spacing: 2px; margin-bottom: 30px;">MY TECH STACK</h3>
+        <div style="text-align: center; margin: 60px 0;">
+            <h3 style="font-family: 'League Spartan', sans-serif; color: #fff; letter-spacing: 2px; margin-bottom: 40px;">MY TECH STACK</h3>
             <div class="tech-stack-container">
                 <div style="text-align: center;">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="50" alt="Python" />
@@ -257,16 +283,16 @@
         </div>
 
         <div class="info-grid">
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 15px;">
-                <h4 style="color: #fff; font-family: 'League Spartan'; margin-bottom: 15px;">Key Projects</h4>
-                <ul style="color: #bbb; padding-left: 20px; line-height: 1.8;">
-                    <li><strong>Phal-Sabji Sanjaal:</strong> Full-stack app with React & Node.js</li>
-                    <li><strong>Kavre Guide:</strong> Django-integrated platform</li>
-                    <li><strong>Task Tracker:</strong> Vercel deployed with Firebase</li>
+            <div class="info-card">
+                <h4 style="color: #fff; font-family: 'League Spartan'; font-size: 1.5rem; margin-top: 0; margin-bottom: 20px;">Key Projects</h4>
+                <ul style="color: #bbb; padding-left: 20px; line-height: 2;">
+                    <li><strong>Phal-Sabji Sanjaal:</strong> Full-stack React & Node</li>
+                    <li><strong>Kavre Guide:</strong> Django Integrated</li>
+                    <li><strong>Task Tracker:</strong> Firebase & Vercel</li>
                 </ul>
             </div>
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 15px;">
-                <h4 style="color: #fff; font-family: 'League Spartan'; margin-bottom: 15px;">Leadership</h4>
+            <div class="info-card">
+                <h4 style="color: #fff; font-family: 'League Spartan'; font-size: 1.5rem; margin-top: 0; margin-bottom: 20px;">Leadership</h4>
                 <p style="color: #bbb; line-height: 1.8;">
                     Active member of <strong>Computer Club</strong>, <strong>Leo Club</strong>, and <strong>Rotaract Club</strong> of Kathmandu University, managing community activities and tech events.
                 </p>
@@ -274,16 +300,12 @@
         </div>
 
         <div class="btns">
-          <div class="btn">
-            <a href="https://drive.google.com/uc?export=download&id=16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj" download="Nishchal_Raj_Subedi_Resume.pdf" target="_blank" style="background: #fff; color: #000; display: flex; align-items: center; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold;">
-                <img src="../images/Arrow_right.svg" alt="arrow_right" style="filter: invert(1); margin-right: 10px;" /> Download CV
-            </a>
-          </div>
-          <div class="btn">
-            <a href="../contact/index.html" style="display: flex; align-items: center; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; border: 1px solid #fff; color: #fff;">
-                <img src="../images/Arrow_right.svg" alt="arrow_right" style="margin-right: 10px;" /> Contact me
-            </a>
-          </div>
+          <a href="https://drive.google.com/uc?export=download&id=16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj" download="Nishchal_Raj_Subedi_Resume.pdf" target="_blank" class="btn-primary">
+              <img src="../images/Arrow_right.svg" alt="arrow_right" style="filter: invert(1); margin-right: 10px;" /> Download CV
+          </a>
+          <a href="../contact/index.html" class="btn-secondary">
+              <img src="../images/Arrow_right.svg" alt="arrow_right" style="margin-right: 10px;" /> Contact me
+          </a>
         </div>
       </div>
     </section>
@@ -292,15 +314,15 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-frame">
-            <div class="frame"><a href="../project_home/index.html">HOME</a></div>
-            <div class="frame"><a href="../projects/index.html">PROJECTS</a></div>
-            <div class="frame"><a href="../contact/index.html">CONTACT</a></div>
+            <a href="../project_home/index.html">HOME</a>
+            <a href="../projects/index.html">PROJECTS</a>
+            <a href="../contact/index.html">CONTACT</a>
           </div>
           <div class="footer-title">
-            <div class="footer-logo"><img src="../images/rpLogoWhite.svg" width="40" alt="logo" /></div>
+            <img src="../images/rpLogoWhite.svg" width="40" alt="logo" />
             <div class="footer-texts">
-              <div class="footer-text"><a href="mailto:nishchalrj2316@gmail.com">nishchalrj2316@gmail.com</a></div>
-              <div class="footer-text"><a href="tel:+9779865512865">+977 9865512865</a></div>
+              <a href="mailto:nishchalrj2316@gmail.com">nishchalrj2316@gmail.com</a>
+              <a href="tel:+9779865512865">+977 9865512865</a>
             </div>
           </div>
         </div>
