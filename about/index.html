@@ -12,13 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=League+Spartan:wght@400;700&display=swap" rel="stylesheet" />
 
     <style>
-      /* --- PRESERVING YOUR ORIGINAL TRANSITIONS & DESIGN --- */
       :root {
-        --card-bg: rgba(255, 255, 255, 0.05);
-        --card-border: rgba(255, 255, 255, 0.1);
+        --card-bg: rgba(255, 255, 255, 0.03);
+        --card-border: rgba(255, 255, 255, 0.08);
         --accent-white: #ffffff;
         --dim-text: #aaaaaa;
-        --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       body {
@@ -35,7 +34,7 @@
         margin: 0 auto;
       }
 
-      /* --- HEADER: PUSHED LOWER & RESPONSIVE --- */
+      /* --- HEADER --- */
       .header {
         padding-top: clamp(100px, 15vh, 180px);
         padding-bottom: 60px;
@@ -47,42 +46,42 @@
         font-size: clamp(3.5rem, 12vw, 7rem);
         margin: 0;
         line-height: 0.8;
-        transition: var(--transition);
       }
 
       .header-text {
-        font-size: clamp(0.7rem, 2vw, 1.1rem);
-        letter-spacing: clamp(5px, 2vw, 12px);
+        font-size: clamp(0.7rem, 2vw, 1rem);
+        letter-spacing: 8px;
         color: var(--dim-text);
         margin-top: 20px;
         text-transform: uppercase;
       }
 
-      /* --- THE BLACK CARDS (Original Style) --- */
+      /* --- THE PREMIUM BLACK CARDS --- */
       .content-card {
         background: var(--card-bg);
         border: 1px solid var(--card-border);
         border-radius: 24px;
-        backdrop-filter: blur(15px);
-        padding: clamp(25px, 5vw, 50px);
+        backdrop-filter: blur(10px);
+        padding: clamp(25px, 5vw, 45px);
         transition: var(--transition);
-        position: relative;
-        overflow: hidden;
+        height: 100%;
+        box-sizing: border-box;
       }
 
       .content-card:hover {
-        border-color: rgba(255, 255, 255, 0.3);
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       }
 
-      /* --- TECH STACK (Grayscale to Color Hover) --- */
+      /* --- TECH STACK INTERACTION --- */
       .tech-stack-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 30px;
-        margin: 60px 0;
+        gap: 40px;
+        margin: 80px 0;
       }
 
       .tech-item {
@@ -93,23 +92,25 @@
       .tech-item img {
         width: 50px;
         filter: grayscale(100%);
+        opacity: 0.6;
         transition: var(--transition);
       }
 
       .tech-item:hover img {
         filter: grayscale(0%);
-        transform: scale(1.1);
+        opacity: 1;
+        transform: scale(1.15) rotate(5deg);
       }
 
       .tech-item span {
         display: block;
         color: var(--dim-text);
-        font-size: 0.75rem;
-        margin-top: 10px;
-        opacity: 0.6;
+        font-size: 0.7rem;
+        margin-top: 12px;
+        letter-spacing: 1px;
       }
 
-      /* --- GRID SYSTEM: Desktop Side-by-Side, Mobile Stack --- */
+      /* --- RESPONSIVE GRID --- */
       .info-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -122,7 +123,7 @@
         display: flex;
         justify-content: center;
         gap: 20px;
-        margin-bottom: 60px;
+        margin-bottom: 80px;
       }
 
       .btn {
@@ -130,10 +131,12 @@
         text-decoration: none;
         display: flex;
         align-items: center;
-        padding: 14px 30px;
+        padding: 16px 32px;
         border-radius: 50px;
         font-weight: 700;
         font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
       .btn-cv { background: #fff; color: #000; }
@@ -141,26 +144,33 @@
 
       .btn:hover {
         transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        background: #f0f0f0; /* Slight tint for CV btn */
       }
 
-      /* --- FOOTER FIX --- */
+      .btn-contact:hover {
+        background: rgba(255,255,255,0.1);
+      }
+
+      /* --- RESPONSIVE FOOTER FIX --- */
       .footer {
         padding: 80px 0 40px;
-        border-top: 1px solid #222;
+        border-top: 1px solid #1a1a1a;
       }
 
       .footer-content {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 30px;
       }
 
       .footer-frame { display: flex; gap: 30px; }
-      .footer-frame a { color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; }
+      .footer-frame a { color: #fff; text-decoration: none; font-size: 0.75rem; letter-spacing: 2px; transition: 0.3s; }
+      .footer-frame a:hover { color: var(--dim-text); }
 
       .footer-title { display: flex; align-items: center; gap: 20px; }
-      .footer-texts a { color: var(--dim-text); text-decoration: none; display: block; font-size: 0.9rem; margin-bottom: 5px; }
+      .footer-texts a { color: var(--dim-text); text-decoration: none; display: block; font-size: 0.9rem; margin-bottom: 5px; transition: 0.3s; }
+      .footer-texts a:hover { color: #fff; }
 
       /* --- MOBILE BREAKPOINTS --- */
       @media (max-width: 850px) {
@@ -172,12 +182,12 @@
           gap: 50px;
         }
 
-        .footer-frame { justify-content: center; order: 2; }
+        .footer-frame { justify-content: center; order: 2; flex-wrap: wrap; }
         .footer-title { flex-direction: column; order: 1; }
         .footer-texts { text-align: center; }
 
         .btns { flex-direction: column; align-items: center; }
-        .btn { width: 100%; max-width: 300px; justify-content: center; }
+        .btn { width: 100%; max-width: 300px; justify-content: center; box-sizing: border-box; }
       }
     </style>
   </head>
@@ -213,14 +223,15 @@
       <div class="container">
         
         <div class="content-card" style="margin-bottom: 40px;">
-          <h2 style="font-family: 'League Spartan'; font-size: 2.5rem; margin-top: 0;">Professional Profile</h2>
-          <p style="color: var(--dim-text); line-height: 1.8; font-size: 1.1rem; margin-bottom: 30px;">
+          <h2 style="font-family: 'League Spartan'; font-size: 2.2rem; margin-top: 0; letter-spacing: 1px;">Professional Profile</h2>
+          <p style="color: var(--dim-text); line-height: 1.8; font-size: 1.1rem; margin-bottom: 30px; font-weight: 300;">
             I am a motivated web developer with a sound knowledge of both <strong>frontend and backend development</strong>. 
-            Currently pursuing my <strong>Bachelor in Computer Engineering</strong> at <strong>Kathmandu University</strong> (CGPA: 3.7).
+            Currently pursuing my <strong>Bachelor in Computer Engineering</strong> at <strong>Kathmandu University</strong> (CGPA: 3.7). 
+            I focus on building high-performance applications with modern architectures.
           </p>
           <div style="display: flex; gap: 40px; border-top: 1px solid var(--card-border); padding-top: 25px; flex-wrap: wrap;">
-            <div><span style="color: #666; display: block; font-size: 0.8rem; text-transform: uppercase;">Education</span><span style="font-weight: 700;">KU, Dhulikhel</span></div>
-            <div><span style="color: #666; display: block; font-size: 0.8rem; text-transform: uppercase;">Current CGPA</span><span style="font-weight: 700;">3.7 / 4.0</span></div>
+            <div><span style="color: #555; display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Education</span><span style="font-weight: 700; font-size: 1.1rem;">KU, Dhulikhel</span></div>
+            <div><span style="color: #555; display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Current CGPA</span><span style="font-weight: 700; font-size: 1.1rem;">3.7 / 4.0</span></div>
           </div>
         </div>
 
@@ -234,17 +245,17 @@
 
         <div class="info-grid">
             <div class="content-card">
-                <h4 style="font-family: 'League Spartan'; font-size: 1.6rem; margin-top: 0; color: #fff;">Key Projects</h4>
-                <ul style="color: var(--dim-text); padding-left: 20px; line-height: 2;">
+                <h4 style="font-family: 'League Spartan'; font-size: 1.5rem; margin-top: 0; color: #fff; letter-spacing: 1px;">Key Projects</h4>
+                <ul style="color: var(--dim-text); padding-left: 20px; line-height: 2.2; font-weight: 300;">
                     <li><strong>Phal-Sabji Sanjaal:</strong> Full-stack app</li>
                     <li><strong>Kavre Guide:</strong> Django platform</li>
                     <li><strong>Task Tracker:</strong> Firebase integration</li>
                 </ul>
             </div>
             <div class="content-card">
-                <h4 style="font-family: 'League Spartan'; font-size: 1.6rem; margin-top: 0; color: #fff;">Leadership</h4>
-                <p style="color: var(--dim-text); line-height: 1.8;">
-                    Active member of <strong>Computer Club</strong>, <strong>Leo Club</strong>, and <strong>Rotaract Club</strong> of KU, managing community activities.
+                <h4 style="font-family: 'League Spartan'; font-size: 1.5rem; margin-top: 0; color: #fff; letter-spacing: 1px;">Leadership</h4>
+                <p style="color: var(--dim-text); line-height: 1.8; font-weight: 300;">
+                    Active member of <strong>Computer Club</strong>, <strong>Leo Club</strong>, and <strong>Rotaract Club</strong> of KU, managing community activities and large-scale tech events.
                 </p>
             </div>
         </div>
