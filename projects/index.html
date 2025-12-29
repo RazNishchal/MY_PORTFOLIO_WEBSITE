@@ -26,7 +26,46 @@
         margin: 0 auto;
       }
 
-      /* --- HEADER RESPONSIVENESS --- */
+      /* --- NAVIGATION PANEL SPACING FIX --- */
+      .home-banner {
+        display: flex;
+        justify-content: space-between;
+        padding: 25px 5%; /* Using % for consistent side margins */
+        align-items: center;
+      }
+
+      /* Fixed Menu Container */
+      .menu {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 280px; /* Standard side menu width */
+        background: #fff;
+        color: #000;
+        z-index: 1000;
+        padding: 40px 30px; /* Added right padding for internal content */
+        box-sizing: border-box;
+        transform: translateX(100%); /* Hidden by default - logic usually in script.js */
+        transition: transform 0.4s ease;
+      }
+
+      .home-panel-closes {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 30px;
+        padding-right: 10px; /* Push the X icon slightly away from edge */
+      }
+
+      .menu-footer {
+        position: absolute;
+        bottom: 30px;
+        left: 30px;
+        right: 30px; /* Ensures text stays within the container */
+        font-size: 0.8rem;
+      }
+
+      /* --- HEADER --- */
       .header {
         padding-top: clamp(80px, 15vh, 120px);
         text-align: center;
@@ -54,7 +93,6 @@
         width: 100%;
       }
 
-      /* --- PROJECT CARD STYLE --- */
       .project {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -86,8 +124,6 @@
 
       .project-image img {
         width: 100%; 
-        height: auto;
-        /* Keeps all project images identical in height */
         aspect-ratio: 16 / 9; 
         object-fit: cover;
         display: block;
@@ -133,26 +169,25 @@
       .footer-texts a { color: #888; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 5px; }
 
       /* --- MOBILE OVERRIDES --- */
-      @media (max-width: 1024px) {
-        .projects { grid-template-columns: repeat(2, 1fr); }
-      }
-
       @media (max-width: 768px) {
         .container { width: 92%; }
 
+        /* Menu tweak for smaller screens */
+        .menu { width: 250px; }
+
         .project {
-            width: 85%; /* Narrowed card container */
+            width: 85%;
             margin: 0 auto; 
             padding: 15px;
         }
 
         .project-title {
-            font-size: 0.85rem; /* Smaller font size */
+            font-size: 0.85rem;
             margin-bottom: 8px;
         }
 
         .project-image img {
-            aspect-ratio: 3 / 2; /* Adjusted height for mobile screens */
+            aspect-ratio: 3 / 2;
         }
 
         .projects { 
@@ -164,31 +199,32 @@
           flex-direction: column;
           text-align: center;
         }
-
-        .footer-frame { justify-content: center; width: 100%; }
-        .footer-title { flex-direction: column; gap: 15px; }
       }
     </style>
   </head>
   <body>
-    <div class="home-banner" style="display:flex; justify-content:space-between; padding:20px; align-items:center;">
+    <div class="home-banner">
       <div class="home-icon">
         <img src="../images/rpLogoWhite.svg" alt="logo" width="45" />
       </div>
-      <div class="home-panel" id="home-panel" style="cursor:pointer;">
+      <div class="home-panel" id="home-panel" style="cursor:pointer; padding-right: 5px;">
         <img src="../images/3_white.svg" alt="menu_burger" width="30" />
       </div>
     </div>
 
     <div class="menu" id="menu">
-      <div class="home-panel-closes" id="home-panel-closes"><img src="../images/X_white.svg" alt="x" /></div>
-      <div class="menu-title"><img src="../images/rpLogoBlack.svg" alt="logo" /> Portfolio</div>
+      <div class="home-panel-closes" id="home-panel-closes" style="cursor:pointer;">
+        <img src="../images/X_white.svg" alt="x" width="25" />
+      </div>
+      <div class="menu-title" style="margin-bottom:40px; display:flex; align-items:center; gap:10px; font-weight:bold;">
+        <img src="../images/rpLogoBlack.svg" alt="logo" width="30"/> Portfolio
+      </div>
       <div class="list-menu">
-        <ul>
-          <li><a href="../project_home/index.html">Home</a></li>
-          <li><a href="../about/index.html">About</a></li>
-          <li><a href="../contact/index.html">Contact</a></li>
-          <li><a href="../index.html">Exit</a></li>
+        <ul style="list-style:none; padding:0;">
+          <li style="margin-bottom:20px;"><a href="../project_home/index.html" style="text-decoration:none; color:#000; font-weight:500;">Home</a></li>
+          <li style="margin-bottom:20px;"><a href="../about/index.html" style="text-decoration:none; color:#000; font-weight:500;">About</a></li>
+          <li style="margin-bottom:20px;"><a href="../contact/index.html" style="text-decoration:none; color:#000; font-weight:500;">Contact</a></li>
+          <li><a href="../index.html" style="text-decoration:none; color:#000; font-weight:500;">Exit</a></li>
         </ul>
       </div>
       <div class="menu-footer"><span>Created by: </span> @RazNishchal</div>
@@ -214,42 +250,34 @@
             <div class="project-title">KAVRE GUIDE</div>
             <div class="project-image"><a href="https://github.com/RazNishchal/Kavre_Guide" target="_blank"><img src="../images/KavreGuide.png" alt="Kavre" /></a></div>
           </div>
-
           <div class="project">
             <div class="project-title">PHAL SABJI SANJAAL</div>
             <div class="project-image"><a href="https://github.com/RazNishchal/Phal-Sabji-Sanjaal" target="_blank"><img src="../images/Phal.png" alt="Phal" /></a></div>
           </div>
-
           <div class="project">
             <div class="project-title">PORTFOLIO WEBSITE</div>
             <div class="project-image"><a href="https://www.nishchalrajsubedi.com.np/" target="_blank"><img src="../images/Portfolio.png" alt="Portfolio" /></a></div>
           </div>
-
           <div class="project">
             <div class="project-title">CURRENCY CONVERTER</div>
             <div class="project-image"><a href="https://currency-converter-fawn-gamma.vercel.app/" target="_blank"><img src="../images/Currency.png" alt="Currency" /></a></div>
           </div>
-
           <div class="project">
             <div class="project-title">WEATHER APP</div>
             <div class="project-image"><a href="https://weather-app-ten-gilt-38.vercel.app/" target="_blank"><img src="../images/WeatherApp.png" alt="WeatherApp" /></a></div>
           </div>
-
           <div class="project">
             <div class="project-title">TASK TRACKER</div>
             <div class="project-image"><a href="https://tasktrackernishchal.vercel.app/" target="_blank"><img src="../images/TaskTracker.png" alt="TaskTracker" /></a></div>
           </div>
-
           <div class="project">
             <div class="project-title">FORM VALIDATION</div>
             <div class="project-image"><a href="https://gleaming-syrniki-65735c.netlify.app/" target="_blank"><img src="../images/FormValidation.png" alt="FormValidation" /></a></div>
           </div>
-
           <div class="project">
             <div class="project-title">CONFESS NOTE</div>
             <div class="project-image"><a href="https://tranquil-biscuit-433084.netlify.app/" target="_blank"><img src="../images/ConfessNote.png" alt="ConfessNote" /></a></div>
           </div>
-
           <div class="project">
             <div class="project-title">NEPSE CALCULATOR</div>
             <div class="project-image"><a href="https://delicate-pie-90da05.netlify.app/" target="_blank"><img src="../images/NepseCalculator.png" alt="NepseCalculator" /></a></div>
@@ -266,7 +294,6 @@
             <a href="../about/index.html">ABOUT</a>
             <a href="../contact/index.html">CONTACT</a>
           </div>
-
           <div class="footer-title">
             <img src="../images/rpLogoWhite.svg" alt="logo" width="40" />
             <div class="footer-texts">
