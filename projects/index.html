@@ -130,24 +130,19 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 10px;        /* Increases the clickable area for easier tapping */
-  margin-right: 7%;
-  /* This creates the gap from the right side of the screen */
-  transition: opacity 0.3s ease;
-}
-      .home-panel img {
-  width: 150px; /* Adjust this value (e.g., 40px to 50px) to find your perfect size */
-  height: auto;
-  display: block;
+  padding: 10px;
+  margin-right: 7%; /* Consistent gap from right edge */
+  transition: transform 0.3s ease;
 }
 
-/* Optional: Ensures the container doesn't force the icon off-screen */
-.home-banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
+.home-panel:hover {
+  transform: scale(1.1); /* Subtle grow on hover */
+}
+
+.home-panel img {
+  width: 50px;  /* Changed from 150px (which was likely too huge) to a clean 50px */
+  height: auto;
+  display: block;
 }
       .footer-frame { display: flex; gap: 20px; }
       .footer-frame a { color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; }
@@ -197,14 +192,14 @@
     </style>
   </head>
   <body>
-    <div class="home-banner" style="display:flex; justify-content:space-between; padding:20px; align-items:center;">
-      <div class="home-icon">
-        <img src="../images/rpLogoWhite.svg" alt="logo" width="45" />
-      </div>
-      <div class="home-panel" id="home-panel" style="cursor:pointer;">
-        <img src="../images/3_white.svg" alt="menu_burger" width="30" />
-      </div>
-    </div>
+    <div class="home-banner" style="display:flex; justify-content:space-between; padding:20px 0; align-items:center;">
+  <div class="home-icon" style="margin-left: 5%;">
+    <img src="../images/rpLogoWhite.svg" alt="logo" width="45" />
+  </div>
+  <div class="home-panel" id="home-panel">
+    <img src="../images/3_white.svg" alt="menu_burger" /> 
+  </div>
+</div>
 
     <div class="menu" id="menu">
       <div class="home-panel-closes" id="home-panel-closes"><img src="../images/X_white.svg" alt="x" /></div>
