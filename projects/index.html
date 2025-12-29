@@ -126,7 +126,23 @@
   display: block; /* Required to allow margin to be applied */
   margin-bottom: 250px; /* Adjust the space as needed */
 }
+.home-panel {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px;        /* Increases the clickable area for easier tapping */
+  margin-right: 25px;   /* This creates the gap from the right side of the screen */
+  transition: opacity 0.3s ease;
+}
 
+/* Optional: Ensures the container doesn't force the icon off-screen */
+.home-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
       .footer-frame { display: flex; gap: 20px; }
       .footer-frame a { color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; }
 
