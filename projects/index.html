@@ -3,48 +3,119 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects</title>
-    <link
-      rel="shortcut icon"
-      href="../images/rpLogoBlack.svg"
-      type="image/x-icon"
-    />
+    <title>Projects | Nishchal Raj Subedi</title>
+    <link rel="shortcut icon" href="../images/rpLogoBlack.svg" type="image/x-icon" />
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/normalize.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=League+Spartan:wght@400;700&family=League+Gothic&display=swap" rel="stylesheet" />
+
+    <style>
+      /* --- GLOBAL RESPONSIVE FIXES --- */
+      body {
+        background: #000;
+        color: #fff;
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      /* Fix for Header text hiding/going below */
+      .header {
+        padding: clamp(80px, 15vh, 120px) 0 40px;
+        text-align: center;
+      }
+
+      .header-title {
+        font-family: 'League Spartan', sans-serif;
+        font-size: clamp(2.5rem, 10vw, 6rem); /* Scalable font size */
+        line-height: 1;
+        margin-bottom: 10px;
+      }
+
+      .header-text {
+        font-size: clamp(0.8rem, 3vw, 1.2rem);
+        letter-spacing: 5px;
+        color: #888;
+      }
+
+      /* PROJECT GRID FIX */
+      .projects {
+        display: grid;
+        /* This creates a grid that automatically fits as many columns as possible */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .project {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 15px;
+        transition: transform 0.3s ease;
+      }
+
+      .project:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .project-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        display: block;
+      }
+
+      /* Button Fix */
+      .drive-button {
+        display: block;
+        width: fit-content;
+        margin: 0 auto 40px;
+        background: #fff;
+        color: #000;
+        padding: 12px 25px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      /* FOOTER FIXES */
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap; /* Allows stacking on mobile */
+        gap: 30px;
+        padding: 40px 0;
+      }
+
+      @media (max-width: 768px) {
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+        .footer-frame {
+          justify-content: center;
+          margin-bottom: 20px;
+        }
+        .footer-title {
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="home-banner">
-      <div class="home-icon">
-        <img src="../images/rpLogoWhite.svg" alt="logo" />
-      </div>
-
-      <div class="home-panel" id="home-panel">
-        <img src="../images/3_white.svg" alt="menu_burger" />
-      </div>
+      <div class="home-icon"><img src="../images/rpLogoWhite.svg" alt="logo" /></div>
+      <div class="home-panel" id="home-panel"><img src="../images/3_white.svg" alt="menu" /></div>
     </div>
 
     <div class="menu" id="menu">
-      <div class="home-panel-closes" id="home-panel-closes">
-        <img src="../images/X_white.svg" alt="x" />
-      </div>
-      <div class="menu-title">
-        <img src="../images/rpLogoBlack.svg" alt="logo" />
-        Portfolio
-      </div>
+      <div class="home-panel-closes" id="home-panel-closes"><img src="../images/X_white.svg" alt="x" /></div>
+      <div class="menu-title"><img src="../images/rpLogoBlack.svg" alt="logo" /> Portfolio</div>
       <div class="list-menu">
         <ul>
           <li><a href="../project_home/index.html">Home</a></li>
@@ -59,20 +130,19 @@
     <header class="header">
       <div class="container">
         <div class="header-content">
-          <br>
-          <br style="display: block; margin-bottom: 60px; content: 'Hello';">
           <div class="header-title">MY PROJECTS</div>
           <div class="header-text">MADE WITH LOVE</div>
         </div>
       </div>
     </header>
 
-      <section class="section" style="padding: 25px 0;">
+    <section class="section">
+      <div class="container" style="max-width: 90%; margin: 0 auto;">
         
-      <div class="container" style="max-width: 80%;">
         <a href="https://drive.google.com/uc?export=download&id=16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj" download="Nishchal_Raj_Subedi_Resume.pdf" class="drive-button" target="_blank">
-  Download CV
-</a>
+          Download CV
+        </a>
+
         <div class="projects">
           <div class="project">
             <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">KAVRE GUIDE</div>
@@ -98,7 +168,7 @@
             <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">TASK TRACKER</div>
             <div class="project-image"><a href="https://tasktrackernishchal.vercel.app/" target="_blank"><img src="../images/TaskTracker.png" alt="TaskTracker" /></a></div>
           </div>
-           <div class="project">
+          <div class="project">
             <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">FORM VALIDATION</div>
             <div class="project-image"><a href="https://gleaming-syrniki-65735c.netlify.app/" target="_blank"><img src="../images/FormValidation.png" alt="FormValidation" /></a></div>
           </div>
@@ -108,33 +178,26 @@
           </div>
           <div class="project">
             <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">NEPSE CALCULATOR</div>
-            <div class="project-image"><a href="https://delicate-pie-90da05.netlify.app/" target="_blank"><img src="../images/NepseCalculator.png" alt="NepseCalculatore" /></a></div>
+            <div class="project-image"><a href="https://delicate-pie-90da05.netlify.app/" target="_blank"><img src="../images/NepseCalculator.png" alt="NepseCalculator" /></a></div>
           </div>
         </div>
-
       </div>
     </section>
 
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <div class="footer-frame">
+          <div class="footer-frame" style="display: flex; gap: 20px;">
             <div class="frame"><a href="../project_home/index.html">HOME</a></div>
             <div class="frame"><a href="../about/index.html">ABOUT</a></div>
             <div class="frame"><a href="../contact/index.html">CONTACT</a></div>
           </div>
 
-          <div class="footer-title">
-            <div class="footer-logo">
-              <img src="../images/rpLogoWhite.svg" alt="logo" />
-            </div>
+          <div class="footer-title" style="display: flex; align-items: center; gap: 15px;">
+            <div class="footer-logo"><img src="../images/rpLogoWhite.svg" alt="logo" width="40" /></div>
             <div class="footer-texts">
-              <div class="footer-text">
-                <a href="mailto:nishchalrj2316@gmail.com">nishchalrj2316@gmail.com</a>
-              </div>
-              <div class="footer-text">
-                <a href="tel:+9779865512865">+977 9865512865</a>
-              </div>
+              <div class="footer-text"><a href="mailto:nishchalrj2316@gmail.com">nishchalrj2316@gmail.com</a></div>
+              <div class="footer-text"><a href="tel:+9779865512865">+977 9865512865</a></div>
             </div>
           </div>
         </div>
@@ -143,8 +206,6 @@
 
     <script src="../scripts/script.js"></script>
     <script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
-    <script>
-      new Snowflakes();
-    </script>
+    <script>new Snowflakes();</script>
   </body>
 </html>
