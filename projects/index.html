@@ -26,7 +26,7 @@
         margin: 0 auto;
       }
 
-      /* --- HEADER --- */
+      /* --- HEADER RESPONSIVENESS --- */
       .header {
         padding-top: clamp(80px, 15vh, 120px);
         text-align: center;
@@ -54,7 +54,7 @@
         width: 100%;
       }
 
-      /* --- PROJECT CARD --- */
+      /* --- PROJECT CARD STYLE --- */
       .project {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -78,19 +78,18 @@
         letter-spacing: 1px;
       }
 
-      /* --- IMAGE HEIGHT FIX --- */
       .project-image {
         width: 100%;
         overflow: hidden;
         border-radius: 10px;
-        background: #111; /* Fallback color */
       }
 
       .project-image img {
         width: 100%; 
         height: auto;
-        aspect-ratio: 16 / 9; /* Forces images to be the same height */
-        object-fit: cover;    /* Prevents stretching/distortion */
+        /* Keeps all project images identical in height */
+        aspect-ratio: 16 / 9; 
+        object-fit: cover;
         display: block;
         transition: transform 0.6s ease;
       }
@@ -141,21 +140,19 @@
       @media (max-width: 768px) {
         .container { width: 92%; }
 
-        /* Slower scaling for text and narrowed card */
         .project {
-            width: 88%;
+            width: 85%; /* Narrowed card container */
             margin: 0 auto; 
-            padding: 12px;
+            padding: 15px;
         }
 
         .project-title {
-            font-size: 0.85rem;
+            font-size: 0.85rem; /* Smaller font size */
             margin-bottom: 8px;
         }
 
-        /* Adjust image aspect ratio for mobile to take less vertical space */
         .project-image img {
-            aspect-ratio: 3 / 2; 
+            aspect-ratio: 3 / 2; /* Adjusted height for mobile screens */
         }
 
         .projects { 
@@ -217,15 +214,47 @@
             <div class="project-title">KAVRE GUIDE</div>
             <div class="project-image"><a href="https://github.com/RazNishchal/Kavre_Guide" target="_blank"><img src="../images/KavreGuide.png" alt="Kavre" /></a></div>
           </div>
+
           <div class="project">
             <div class="project-title">PHAL SABJI SANJAAL</div>
             <div class="project-image"><a href="https://github.com/RazNishchal/Phal-Sabji-Sanjaal" target="_blank"><img src="../images/Phal.png" alt="Phal" /></a></div>
           </div>
+
           <div class="project">
             <div class="project-title">PORTFOLIO WEBSITE</div>
             <div class="project-image"><a href="https://www.nishchalrajsubedi.com.np/" target="_blank"><img src="../images/Portfolio.png" alt="Portfolio" /></a></div>
           </div>
+
+          <div class="project">
+            <div class="project-title">CURRENCY CONVERTER</div>
+            <div class="project-image"><a href="https://currency-converter-fawn-gamma.vercel.app/" target="_blank"><img src="../images/Currency.png" alt="Currency" /></a></div>
           </div>
+
+          <div class="project">
+            <div class="project-title">WEATHER APP</div>
+            <div class="project-image"><a href="https://weather-app-ten-gilt-38.vercel.app/" target="_blank"><img src="../images/WeatherApp.png" alt="WeatherApp" /></a></div>
+          </div>
+
+          <div class="project">
+            <div class="project-title">TASK TRACKER</div>
+            <div class="project-image"><a href="https://tasktrackernishchal.vercel.app/" target="_blank"><img src="../images/TaskTracker.png" alt="TaskTracker" /></a></div>
+          </div>
+
+          <div class="project">
+            <div class="project-title">FORM VALIDATION</div>
+            <div class="project-image"><a href="https://gleaming-syrniki-65735c.netlify.app/" target="_blank"><img src="../images/FormValidation.png" alt="FormValidation" /></a></div>
+          </div>
+
+          <div class="project">
+            <div class="project-title">CONFESS NOTE</div>
+            <div class="project-image"><a href="https://tranquil-biscuit-433084.netlify.app/" target="_blank"><img src="../images/ConfessNote.png" alt="ConfessNote" /></a></div>
+          </div>
+
+          <div class="project">
+            <div class="project-title">NEPSE CALCULATOR</div>
+            <div class="project-image"><a href="https://delicate-pie-90da05.netlify.app/" target="_blank"><img src="../images/NepseCalculator.png" alt="NepseCalculator" /></a></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -237,6 +266,7 @@
             <a href="../about/index.html">ABOUT</a>
             <a href="../contact/index.html">CONTACT</a>
           </div>
+
           <div class="footer-title">
             <img src="../images/rpLogoWhite.svg" alt="logo" width="40" />
             <div class="footer-texts">
