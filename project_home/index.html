@@ -1,207 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home | Nishchal Raj Subedi</title>
-    <link rel="shortcut icon" href="../images/rpLogoBlack.svg" type="image/x-icon" />
-    <link rel="stylesheet" href="styles/style.css" />
-    <link rel="stylesheet" href="styles/normalize.css" />
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
     
     <style>
-      /* --- GLOBAL RESPONSIVE FIXES --- */
-      .container {
-        width: 90%;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      /* About Section Grid (The Bio + Skill Icons) */
-      .about-grid {
-        display: grid;
-        grid-template-columns: 1.5fr 1fr;
-        gap: 40px;
-        margin-bottom: 80px;
-      }
-
-      /* PROJECTS GRID */
-      .projects {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 20px !important;
-        justify-content: center !important;
-      }
-      .project {
-        flex: 0 1 calc(33.333% - 20px) !important;
-        min-width: 280px;
-        box-sizing: border-box;
-        margin-bottom: 30px;
-      }
-
-      /* Footer Layout */
-      .footer-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-        text-align: center;
-      }
-      .footer-frame {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      /* --- MEDIA QUERIES FOR MOBILE & TABLET --- */
-      @media (max-width: 1100px) {
-        .project { flex: 0 1 calc(50% - 15px) !important; }
-      }
-
-      @media (max-width: 900px) {
-        .about-grid {
-          grid-template-columns: 1fr; /* Stack Bio and Skills vertically */
+        /* --- CORE RESPONSIVE SETUP --- */
+        :root {
+            --bg-color: #000;
+            --text-main: #fff;
+            --text-dim: #aaa;
+            --accent: #fff;
         }
-        .header-title { font-size: 15vw !important; } /* Dynamic font size for mobile */
-      }
 
-      @media (max-width: 600px) {
-        .project { flex: 0 1 100% !important; }
-        .section { padding: 40px 0 !important; }
-        .about-grid div:first-child { padding: 30px !important; } /* Reduce padding on mobile */
-        .footer-title { flex-direction: column; gap: 15px; }
-      }
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
 
-      /* Hover effect for Project Cards */
-      .project-image img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        border-radius: 12px;
-        filter: grayscale(20%);
-        transition: 0.4s ease;
-      }
-      .project:hover img {
-        filter: grayscale(0%);
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255,255,255,0.1);
-      }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- FLUID TYPOGRAPHY --- */
+        /* clamp(min, preferred, max) ensures text scales with screen size */
+        .header-title {
+            font-family: 'League Spartan';
+            font-size: clamp(3.5rem, 15vw, 8rem); 
+            line-height: 0.9;
+            text-align: center;
+        }
+
+        .header-text {
+            font-size: clamp(0.8rem, 3vw, 1.2rem);
+            letter-spacing: clamp(4px, 1vw, 10px);
+            color: #888;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; }
+        }
+
+        .bio-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: clamp(20px, 5vw, 50px);
+            border-radius: 20px;
+        }
+
+        .bio-card h2 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            margin-bottom: 15px;
+        }
+
+        /* --- PROJECTS GRID --- */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 1024px) {
+            .projects { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .projects { grid-template-columns: 1fr; }
+        }
+
+        .project { width: 100%; }
+
+        /* RESPONSIVE IMAGES */
+        .project-image img {
+            width: 100%;
+            /* Use aspect-ratio instead of fixed height for mobile scaling */
+            aspect-ratio: 16 / 10; 
+            object-fit: cover;
+            border-radius: 12px;
+            transition: 0.4s ease;
+        }
+
+        /* --- SKILLS GRID --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 20px;
+        }
+
+        .skill-item img {
+            width: clamp(30px, 8vw, 45px); /* Icons get smaller on mobile */
+        }
+
+        /* --- FOOTER --- */
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 40px 0;
+            border-top: 1px solid #222;
+        }
+
+        @media (max-width: 700px) {
+            .footer-content { flex-direction: column; text-align: center; }
+        }
     </style>
-  </head>
-  <body style="background: #000; color: #fff; margin: 0; overflow-x: hidden;">
-    
-    <div class="home-banner">
-      <div class="home-icon"><img src="../images/rpLogoWhite.svg" alt="logo" /></div>
-      <div class="home-panel" id="home-panel"><img src="../images/3_white.svg" alt="menu" /></div>
-    </div>
+</head>
+<body>
 
-    <div class="menu" id="menu">
-      <div class="home-panel-closes" id="home-panel-closes"><img src="../images/X_white.svg" alt="x" /></div>
-      <div class="menu-title"><img src="../images/rpLogoBlack.svg" alt="logo" /> Portfolio</div>
-      <div class="list-menu">
-        <ul>
-          <li><a href="../projects/index.html">Projects</a></li>
-          <li><a href="../about/index.html">About</a></li>
-          <li><a href="../contact/index.html">Contact</a></li>
-          <li><a href="../index.html">Exit</a></li>
-        </ul>
-      </div>
-      <div class="menu-footer"><span>Created by: </span> @RazNishchal</div>
-    </div>
-
-    <header class="header" style="padding: 100px 0 50px 0;">
-      <div class="container">
-        <div class="header-conent" style="text-align: center;">
-          <div class="header-title" style="font-size: 8rem; font-family: 'League Spartan'; line-height: 1;">NISHCHAL</div>
-          <div class="header-text" style="letter-spacing: 10px; color: #888;">WEB-DEVELOPER</div>
+    <header style="padding: 80px 0 40px;">
+        <div class="container">
+            <h1 class="header-title">NISHCHAL</h1>
+            <p class="header-text">WEB-DEVELOPER</p>
         </div>
-      </div>
     </header>
 
     <section class="section">
-      <div class="container">
-        
-        <div class="about-grid">
-          
-          <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 50px; border-radius: 24px; position: relative; overflow: hidden;">
-            <div style="position: absolute; top:0; left:0; width: 4px; height: 100%; background: #fff;"></div>
-            <h2 style="font-family: 'League Spartan'; font-size: 2.5rem; margin-top: 0;">Full-Stack Engineering</h2>
-            <p style="font-size: 1.1rem; color: #aaa; line-height: 1.6; font-weight: 300;">
-              Bridging the gap between <strong>Architectural Logic</strong> and <strong>Interactive Design</strong>. 
-              Currently pursuing Computer Engineering at <span style="color: #fff;">Kathmandu University (CGPA 3.7)</span>, 
-              focusing on scalable systems with <span style="color: #fff;">Next.js, Node.js, and SQL</span>.
-            </p>
-            <div style="margin-top: 35px; display: flex; gap: 15px;">
-              <a href="#" style="background: #fff; color: #000; padding: 14px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px;">Download CV</a>
-            </div>
-          </div>
+        <div class="container">
+            
+            <div class="about-grid">
+                <div class="bio-card">
+                    <h2 style="font-family: 'League Spartan';">Full-Stack Engineering</h2>
+                    <p style="color: var(--text-dim); line-height: 1.5; font-size: 1rem;">
+                        Bridging the gap between <strong>Architectural Logic</strong> and <strong>Interactive Design</strong>. 
+                        Currently at <span style="color: #fff;">Kathmandu University</span>.
+                    </p>
+                    <a href="#" style="display:inline-block; margin-top:20px; background:#fff; color:#000; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.8rem;">Download CV</a>
+                </div>
 
-          <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 20px; align-items: center;">
-            <div style="text-align: center;">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="40" style="background: #fff; border-radius: 50%;" alt="Next" />
-              <p style="font-size: 0.6rem; color: #888; margin-top: 8px;">NEXT.JS</p>
+                <div class="skills-grid">
+                    <div class="skill-item" style="text-align:center;">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" style="filter: invert(1);" alt="Next" />
+                        <p style="font-size:0.6rem; color:#888;">NEXT.JS</p>
+                    </div>
+                    <div class="skill-item" style="text-align:center;">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" />
+                        <p style="font-size:0.6rem; color:#888;">REACT</p>
+                    </div>
+                    <div class="skill-item" style="text-align:center;">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node" />
+                        <p style="font-size:0.6rem; color:#888;">NODE</p>
+                    </div>
+                    <div class="skill-item" style="text-align:center;">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL" />
+                        <p style="font-size:0.6rem; color:#888;">SQL</p>
+                    </div>
+                    <div class="skill-item" style="text-align:center;">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TS" />
+                        <p style="font-size:0.6rem; color:#888;">TS</p>
+                    </div>
+                    <div class="skill-item" style="text-align:center;">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" />
+                        <p style="font-size:0.6rem; color:#888;">PYTHON</p>
+                    </div>
+                </div>
             </div>
-            <div style="text-align: center;">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="40" alt="React" />
-              <p style="font-size: 0.6rem; color: #888; margin-top: 8px;">REACT</p>
-            </div>
-            <div style="text-align: center;">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="40" alt="Node" />
-              <p style="font-size: 0.6rem; color: #888; margin-top: 8px;">NODE.JS</p>
-            </div>
-            <div style="text-align: center;">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="40" alt="SQL" />
-              <p style="font-size: 0.6rem; color: #888; margin-top: 8px;">SQL</p>
-            </div>
-            <div style="text-align: center;">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="40" alt="TS" />
-                <p style="font-size: 0.6rem; color: #888; margin-top: 8px;">TYPESCRIPT</p>
-            </div>
-            <div style="text-align: center;">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="40" alt="Python" />
-                <p style="font-size: 0.6rem; color: #888; margin-top: 8px;">PYTHON</p>
-            </div>
-          </div>
+
+            <div class="projects">
+                <div class="project">
+                    <div style="font-size:0.7rem; color:#888; margin-bottom:5px;">KAVRE GUIDE</div>
+                    <div class="project-image"><img src="../images/KavreGuide.png" alt="Project" /></div>
+                </div>
+                <div class="project">
+                    <div style="font-size:0.7rem; color:#888; margin-bottom:5px;">PHAL SABJI SANJAAL</div>
+                    <div class="project-image"><img src="../images/Phal.png" alt="Project" /></div>
+                </div>
+                <div class="project">
+                    <div style="font-size:0.7rem; color:#888; margin-bottom:5px;">PORTFOLIO</div>
+                    <div class="project-image"><img src="../images/Portfolio.png" alt="Project" /></div>
+                </div>
+                </div>
+
         </div>
-
-        <div class="projects">
-          <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">KAVRE GUIDE</div>
-            <div class="project-image"><a href="#"><img src="../images/KavreGuide.png" alt="Kavre" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">PHAL SABJI SANJAAL</div>
-            <div class="project-image"><a href="#"><img src="../images/Phal.png" alt="Phal" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">PORTFOLIO WEBSITE</div>
-            <div class="project-image"><a href="#"><img src="../images/Portfolio.png" alt="Portfolio" /></a></div>
-          </div>
-          </div>
-
-      </div>
     </section>
 
-    <footer class="footer" style="padding: 60px 0; border-top: 1px solid #222;">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-frame">
-            <a href="#" style="color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">PROJECTS</a>
-            <a href="#" style="color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">ABOUT</a>
-            <a href="#" style="color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">CONTACT</a>
-          </div>
-          <div style="display: flex; align-items: center; gap: 20px;" class="footer-title">
-            <img src="../images/rpLogoWhite.svg" width="40" alt="logo" />
-            <div style="text-align: left;">
-              <div style="font-size: 0.9rem;"><a href="mailto:nishchalrj2316@gmail.com" style="color: #888; text-decoration: none;">nishchalrj2316@gmail.com</a></div>
-              <div style="font-size: 0.9rem;"><a href="tel:+9779865512865" style="color: #888; text-decoration: none;">+977 9865512865</a></div>
+    <footer style="margin-top: 80px;">
+        <div class="container">
+            <div class="footer-content">
+                <div style="display:flex; gap:15px; font-size:0.7rem;">
+                    <span>PROJECTS</span> <span>ABOUT</span> <span>CONTACT</span>
+                </div>
+                <div style="font-size:0.8rem; color:#888;">
+                    nishchalrj2316@gmail.com
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </footer>
 
-    <script src="../scripts/script.js"></script>
-  </body>
+</body>
 </html>
