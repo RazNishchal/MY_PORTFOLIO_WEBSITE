@@ -10,9 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
     
     <style>
-      /* --- PREMIUM RESPONSIVE SYSTEM --- */
+      /* --- CORE RESPONSIVE VARS --- */
       :root {
-        --primary-white: #ffffff;
         --dim-text: #aaaaaa;
         --card-bg: rgba(255, 255, 255, 0.03);
       }
@@ -26,71 +25,123 @@
       }
 
       .container {
-        width: 92%;
+        width: 90%;
         max-width: 1200px;
         margin: 0 auto;
       }
 
-      /* Fluid Typography for Header */
+      /* --- HEADER: PLACED LOWER AS REQUESTED --- */
+      .header {
+        padding-top: clamp(120px, 20vh, 250px); /* Adjusts based on screen height */
+        padding-bottom: 80px;
+        text-align: center;
+      }
+
       .header-title {
         font-family: 'League Spartan';
-        font-size: clamp(3.5rem, 15vw, 8.5rem); 
+        font-size: clamp(3.2rem, 14vw, 8.5rem); 
         line-height: 0.9;
-        text-align: center;
         margin: 0;
       }
       .header-text {
         font-size: clamp(0.7rem, 2vw, 1.2rem);
-        letter-spacing: clamp(4px, 1.5vw, 12px);
+        letter-spacing: clamp(5px, 2vw, 15px);
         color: var(--dim-text);
-        text-align: center;
-        margin-top: 10px;
+        margin-top: 20px; /* Pushes the 'Web-Developer' text further down */
       }
 
-      /* Responsive About Grid */
+      /* --- ABOUT & SKILLS GRID --- */
       .about-wrapper {
         display: grid;
         grid-template-columns: 1.5fr 1fr;
         gap: 30px;
-        margin: 60px 0;
+        margin-bottom: 80px;
       }
 
-      /* Projects Responsive Grid */
+      /* --- PROJECTS: RESPONSIVE GRID --- */
       .projects {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: clamp(15px, 3vw, 30px);
+        gap: 30px;
       }
 
-      /* Image Scaling Fix */
       .project-image img {
         width: 100%;
-        aspect-ratio: 16 / 10; /* Maintains shape across all devices */
+        aspect-ratio: 16 / 10; /* Keeps images consistent on all devices */
         object-fit: cover;
         border-radius: 12px;
         filter: grayscale(20%);
         transition: 0.4s ease;
-        display: block;
       }
 
-      /* Media Queries for different screen sizes */
+      /* --- FOOTER: FULLY RESPONSIVE --- */
+      .footer {
+        margin-top: 100px;
+        padding: 60px 0;
+        border-top: 1px solid #222;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 40px;
+      }
+
+      .footer-frame {
+        display: flex;
+        gap: 30px;
+      }
+      
+      .footer-frame a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+      }
+
+      .footer-title {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      /* --- SCREEN SIZE ADJUSTMENTS --- */
       @media (max-width: 1024px) {
         .projects { grid-template-columns: repeat(2, 1fr); }
         .about-wrapper { grid-template-columns: 1fr; }
       }
 
+      @media (max-width: 768px) {
+        /* Fixes Footer squishing */
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+        .footer-frame {
+          order: 2; /* Moves links below logo on mobile */
+          justify-content: center;
+        }
+        .footer-title {
+          flex-direction: column;
+          order: 1;
+        }
+        .footer-texts {
+          text-align: center;
+        }
+      }
+
       @media (max-width: 600px) {
         .projects { grid-template-columns: 1fr; }
-        .header { padding-top: 40px; }
-        .bio-box { padding: 30px !important; }
+        .project-title { text-align: center; }
         .skills-box { grid-template-columns: repeat(3, 1fr) !important; }
       }
 
-      /* Hover effects */
+      /* Hover Interaction */
       .project:hover img {
         filter: grayscale(0%);
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(255,255,255,0.08);
       }
     </style>
   </head>
@@ -115,10 +166,12 @@
       <div class="menu-footer"><span>Created by: </span> @RazNishchal</div>
     </div>
 
-    <header class="header" style="padding-top: 80px; padding-bottom: 40px;">
+    <header class="header">
       <div class="container">
+        <div class="header-conent">
           <div class="header-title">NISHCHAL</div>
           <div class="header-text">WEB-DEVELOPER</div>
+        </div>
       </div>
     </header>
 
@@ -126,82 +179,64 @@
       <div class="container">
         
         <div class="about-wrapper">
-          <div class="bio-box" style="background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); padding: 50px; border-radius: 24px; position: relative; overflow: hidden;">
+          <div class="bio-box" style="background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); padding: clamp(25px, 5vw, 50px); border-radius: 24px; position: relative; overflow: hidden;">
             <div style="position: absolute; top:0; left:0; width: 4px; height: 100%; background: #fff;"></div>
             <h2 style="font-family: 'League Spartan'; font-size: clamp(1.8rem, 4vw, 2.8rem); margin-top: 0;">Full-Stack Engineering</h2>
-            <p style="font-size: clamp(0.95rem, 2vw, 1.2rem); color: var(--dim-text); line-height: 1.6; font-weight: 300;">
+            <p style="font-size: clamp(1rem, 2vw, 1.2rem); color: var(--dim-text); line-height: 1.6; font-weight: 300;">
               Bridging the gap between <strong>Architectural Logic</strong> and <strong>Interactive Design</strong>. 
               Currently pursuing Computer Engineering at <span style="color: #fff;">Kathmandu University (CGPA 3.7)</span>, 
               focusing on scalable systems with <span style="color: #fff;">Next.js, Node.js, and SQL</span>.
             </p>
             <div style="margin-top: 35px;">
-              <a href="https://drive.google.com/uc?export=download&id=16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj" download="Nishchal_Raj_Subedi_Resume.pdf" style="background: #fff; color: #000; padding: 14px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; display: inline-block;">Download CV</a>
+              <a href="https://drive.google.com/uc?export=download&id=16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj" download="Nishchal_Raj_Subedi_Resume.pdf" target="_blank" style="background: #fff; color: #000; padding: 14px 30px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; display: inline-block;">Download CV</a>
             </div>
           </div>
 
-          <div class="skills-box" style="background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-            <div style="text-align: center;">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="45" style="background: #fff; border-radius: 50%;" alt="Next" />
-              <p style="font-size: 0.7rem; color: #888; margin-top: 8px;">NEXT.JS</p>
-            </div>
-            <div style="text-align: center;">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="45" alt="React" />
-              <p style="font-size: 0.7rem; color: #888; margin-top: 8px;">REACT</p>
-            </div>
-            <div style="text-align: center;">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="45" alt="Node" />
-              <p style="font-size: 0.7rem; color: #888; margin-top: 8px;">NODE.JS</p>
-            </div>
-            <div style="text-align: center;">
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="45" alt="SQL" />
-              <p style="font-size: 0.7rem; color: #888; margin-top: 8px;">SQL</p>
-            </div>
-            <div style="text-align: center;">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="45" alt="TS" />
-                <p style="font-size: 0.7rem; color: #888; margin-top: 8px;">TYPESCRIPT</p>
-            </div>
-            <div style="text-align: center;">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="45" alt="Python" />
-                <p style="font-size: 0.7rem; color: #888; margin-top: 8px;">PYTHON</p>
-            </div>
+          <div class="skills-box" style="background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <div style="text-align: center;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="45" style="background: #fff; border-radius: 50%;" alt="Next" /><p style="font-size: 0.7rem; color: #888; margin-top: 8px;">NEXT.JS</p></div>
+            <div style="text-align: center;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="45" alt="React" /><p style="font-size: 0.7rem; color: #888; margin-top: 8px;">REACT</p></div>
+            <div style="text-align: center;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="45" alt="Node" /><p style="font-size: 0.7rem; color: #888; margin-top: 8px;">NODE.JS</p></div>
+            <div style="text-align: center;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="45" alt="SQL" /><p style="font-size: 0.7rem; color: #888; margin-top: 8px;">SQL</p></div>
+            <div style="text-align: center;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="45" alt="TS" /><p style="font-size: 0.7rem; color: #888; margin-top: 8px;">TYPESCRIPT</p></div>
+            <div style="text-align: center;"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="45" alt="Python" /><p style="font-size: 0.7rem; color: #888; margin-top: 8px;">PYTHON</p></div>
           </div>
         </div>
 
         <div class="projects">
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">KAVRE GUIDE</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">KAVRE GUIDE</div>
             <div class="project-image"><a href="https://github.com/RazNishchal/Kavre_Guide" target="_blank"><img src="../images/KavreGuide.png" alt="Kavre" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">PHAL SABJI SANJAAL</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">PHAL SABJI SANJAAL</div>
             <div class="project-image"><a href="https://github.com/RazNishchal/Phal-Sabji-Sanjaal" target="_blank"><img src="../images/Phal.png" alt="Phal" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">PORTFOLIO WEBSITE</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">PORTFOLIO WEBSITE</div>
             <div class="project-image"><a href="https://www.nishchalrajsubedi.com.np/" target="_blank"><img src="../images/Portfolio.png" alt="Portfolio" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">CURRENCY CONVERTER</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">CURRENCY CONVERTER</div>
             <div class="project-image"><a href="https://currency-converter-fawn-gamma.vercel.app/" target="_blank"><img src="../images/Currency.png" alt="Currency" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">WEATHER APP</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">WEATHER APP</div>
             <div class="project-image"><a href="https://weather-app-ten-gilt-38.vercel.app/" target="_blank"><img src="../images/WeatherApp.png" alt="WeatherApp" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">TASK TRACKER</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">TASK TRACKER</div>
             <div class="project-image"><a href="https://tasktrackernishchal.vercel.app/" target="_blank"><img src="../images/TaskTracker.png" alt="TaskTracker" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">FORM VALIDATION</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">FORM VALIDATION</div>
             <div class="project-image"><a href="https://gleaming-syrniki-65735c.netlify.app/" target="_blank"><img src="../images/FormValidation.png" alt="FormValidation" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">CONFESS NOTE</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">CONFESS NOTE</div>
             <div class="project-image"><a href="https://tranquil-biscuit-433084.netlify.app/" target="_blank"><img src="../images/ConfessNote.png" alt="ConfessNote" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px; font-size: 0.8rem;">NEPSE CALCULATOR</div>
+            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">NEPSE CALCULATOR</div>
             <div class="project-image"><a href="https://delicate-pie-90da05.netlify.app/" target="_blank"><img src="../images/NepseCalculator.png" alt="NepseCalculator" /></a></div>
           </div>
         </div>
@@ -209,19 +244,19 @@
       </div>
     </section>
 
-    <footer class="footer" style="padding: 60px 0; border-top: 1px solid #222; margin-top: 80px;">
+    <footer class="footer">
       <div class="container">
-        <div class="footer-content" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 30px;">
-          <div class="footer-frame" style="display: flex; gap: 20px;">
-            <div class="frame"><a href="../projects/index.html" style="color: #fff; text-decoration: none; font-size: 0.8rem;">PROJECTS</a></div>
-            <div class="frame"><a href="../about/index.html" style="color: #fff; text-decoration: none; font-size: 0.8rem;">ABOUT</a></div>
-            <div class="frame"><a href="../contact/index.html" style="color: #fff; text-decoration: none; font-size: 0.8rem;">CONTACT</a></div>
+        <div class="footer-content">
+          <div class="footer-frame">
+            <div class="frame"><a href="../projects/index.html">PROJECTS</a></div>
+            <div class="frame"><a href="../about/index.html">ABOUT</a></div>
+            <div class="frame"><a href="../contact/index.html">CONTACT</a></div>
           </div>
-          <div class="footer-title" style="display: flex; align-items: center; gap: 20px;">
+          <div class="footer-title">
             <div class="footer-logo"><img src="../images/rpLogoWhite.svg" width="40" alt="logo" /></div>
             <div class="footer-texts">
-              <div class="footer-text"><a href="mailto:nishchalrj2316@gmail.com" style="color: #888; text-decoration: none; font-size: 0.9rem;">nishchalrj2316@gmail.com</a></div>
-              <div class="footer-text"><a href="tel:+9779865512865" style="color: #888; text-decoration: none; font-size: 0.9rem;">+977 9865512865</a></div>
+              <div class="footer-text" style="margin-bottom: 5px;"><a href="mailto:nishchalrj2316@gmail.com" style="color: #888; text-decoration: none;">nishchalrj2316@gmail.com</a></div>
+              <div class="footer-text"><a href="tel:+9779865512865" style="color: #888; text-decoration: none;">+977 9865512865</a></div>
             </div>
           </div>
         </div>
