@@ -9,10 +9,9 @@
     <link rel="stylesheet" href="styles/normalize.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=League+Spartan:wght@400;700&family=League+Gothic&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=League+Spartan:wght@400;700&display=swap" rel="stylesheet" />
 
     <style>
-      /* --- GLOBAL RESPONSIVE FIXES --- */
       body {
         background: #000;
         color: #fff;
@@ -20,165 +19,216 @@
         overflow-x: hidden;
       }
 
-      /* Fix for Header text hiding/going below */
+      .container {
+        width: 92%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
       .header {
-        padding: clamp(80px, 15vh, 120px) 0 40px;
+        padding: 120px 0 40px;
         text-align: center;
       }
 
       .header-title {
         font-family: 'League Spartan', sans-serif;
-        font-size: clamp(2.5rem, 10vw, 6rem); /* Scalable font size */
-        line-height: 1;
-        margin-bottom: 10px;
+        font-size: clamp(2.5rem, 8vw, 6rem);
+        margin: 0;
       }
 
-      .header-text {
-        font-size: clamp(0.8rem, 3vw, 1.2rem);
-        letter-spacing: 5px;
-        color: #888;
-      }
-
-      /* PROJECT GRID FIX */
+      /* --- 3:3 GRID LAYOUT --- */
       .projects {
         display: grid;
-        /* This creates a grid that automatically fits as many columns as possible */
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        /* Forced 3 columns for desktop */
+        grid-template-columns: repeat(3, 1fr); 
         gap: 30px;
-        margin-top: 40px;
+        margin-top: 30px;
+        width: 100%;
       }
 
+      /* --- HOVER EFFECTS (ACTIVE ON ALL SCREENS) --- */
       .project {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
-        padding: 15px;
-        transition: transform 0.3s ease;
+        border-radius: 16px;
+        padding: 20px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
       }
 
       .project:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-10px) scale(1.02);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+      }
+
+      .project-image {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
       }
 
       .project-image img {
         width: 100%;
         height: auto;
-        border-radius: 10px;
         display: block;
+        transition: transform 0.6s ease;
       }
 
-      /* Button Fix */
+      .project:hover .project-image img {
+        transform: scale(1.1);
+      }
+
+      .project-title {
+        font-family: 'League Spartan', sans-serif;
+        color: #888;
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+        transition: color 0.3s;
+      }
+
+      .project:hover .project-title {
+        color: #fff;
+      }
+
       .drive-button {
         display: block;
         width: fit-content;
-        margin: 0 auto 40px;
+        margin: 0 auto 50px;
         background: #fff;
         color: #000;
-        padding: 12px 25px;
+        padding: 14px 35px;
         border-radius: 50px;
         text-decoration: none;
         font-weight: bold;
-        text-align: center;
+        transition: 0.3s;
       }
 
-      /* FOOTER FIXES */
+      .drive-button:hover {
+        transform: scale(1.05);
+        background: #e0e0e0;
+      }
+
+      /* --- FOOTER RESPONSIVE FIX --- */
+      .footer {
+        padding: 80px 0 40px;
+        border-top: 1px solid #222;
+        margin-top: 100px;
+      }
+
       .footer-content {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        flex-wrap: wrap; /* Allows stacking on mobile */
         gap: 30px;
-        padding: 40px 0;
+      }
+
+      .footer-frame {
+        display: flex;
+        gap: 25px;
+      }
+
+      .footer-frame a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        transition: opacity 0.3s;
+      }
+
+      .footer-frame a:hover { opacity: 0.6; }
+
+      .footer-title {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .footer-texts a {
+        color: #888;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      /* --- MOBILE ADJUSTMENTS --- */
+      @media (max-width: 1024px) {
+        .projects { grid-template-columns: repeat(2, 1fr); } /* 2 columns for tablets */
       }
 
       @media (max-width: 768px) {
+        .projects { grid-template-columns: 1fr; } /* 1 column for phones */
+        
         .footer-content {
           flex-direction: column;
           text-align: center;
+          gap: 50px;
         }
-        .footer-frame {
-          justify-content: center;
-          margin-bottom: 20px;
-        }
-        .footer-title {
-          flex-direction: column;
-        }
+
+        .footer-frame { justify-content: center; width: 100%; }
+        .footer-title { flex-direction: column; gap: 15px; }
       }
     </style>
   </head>
   <body>
+
     <div class="home-banner">
       <div class="home-icon"><img src="../images/rpLogoWhite.svg" alt="logo" /></div>
       <div class="home-panel" id="home-panel"><img src="../images/3_white.svg" alt="menu" /></div>
     </div>
 
-    <div class="menu" id="menu">
-      <div class="home-panel-closes" id="home-panel-closes"><img src="../images/X_white.svg" alt="x" /></div>
-      <div class="menu-title"><img src="../images/rpLogoBlack.svg" alt="logo" /> Portfolio</div>
-      <div class="list-menu">
-        <ul>
-          <li><a href="../project_home/index.html">Home</a></li>
-          <li><a href="../about/index.html">About</a></li>
-          <li><a href="../contact/index.html">Contact</a></li>
-          <li><a href="../index.html">Exit</a></li>
-        </ul>
-      </div>
-      <div class="menu-footer"><span>Created by: </span> @RazNishchal</div>
-    </div>
-
     <header class="header">
       <div class="container">
-        <div class="header-content">
-          <div class="header-title">MY PROJECTS</div>
-          <div class="header-text">MADE WITH LOVE</div>
-        </div>
+        <div class="header-title">MY PROJECTS</div>
+        <div class="header-text" style="letter-spacing: 5px; color: #888; margin-top:10px;">MADE WITH LOVE</div>
       </div>
     </header>
 
     <section class="section">
-      <div class="container" style="max-width: 90%; margin: 0 auto;">
+      <div class="container">
         
-        <a href="https://drive.google.com/uc?export=download&id=16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj" download="Nishchal_Raj_Subedi_Resume.pdf" class="drive-button" target="_blank">
+        <a href="https://drive.google.com/uc?export=download&id=16dp5CZtESQRzBUVtDVT3ZAHj1WO7nxzj" class="drive-button" target="_blank">
           Download CV
         </a>
 
         <div class="projects">
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">KAVRE GUIDE</div>
-            <div class="project-image"><a href="https://github.com/RazNishchal/Kavre_Guide" target="_blank"><img src="../images/KavreGuide.png" alt="Kavre" /></a></div>
+            <div class="project-title">KAVRE GUIDE</div>
+            <div class="project-image">
+              <a href="https://github.com/RazNishchal/Kavre_Guide" target="_blank"><img src="../images/KavreGuide.png" alt="Kavre" /></a>
+            </div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">PHAL SABJI SANJAAL</div>
-            <div class="project-image"><a href="https://github.com/RazNishchal/Phal-Sabji-Sanjaal" target="_blank"><img src="../images/Phal.png" alt="Phal" /></a></div>
+            <div class="project-title">PHAL SABJI SANJAAL</div>
+            <div class="project-image">
+              <a href="https://github.com/RazNishchal/Phal-Sabji-Sanjaal" target="_blank"><img src="../images/Phal.png" alt="Phal" /></a>
+            </div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">PORTFOLIO WEBSITE</div>
-            <div class="project-image"><a href="https://www.nishchalrajsubedi.com.np/" target="_blank"><img src="../images/Portfolio.png" alt="Portfolio" /></a></div>
+            <div class="project-title">PORTFOLIO WEBSITE</div>
+            <div class="project-image">
+              <a href="https://www.nishchalrajsubedi.com.np/" target="_blank"><img src="../images/Portfolio.png" alt="Portfolio" /></a>
+            </div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">CURRENCY CONVERTER</div>
-            <div class="project-image"><a href="https://currency-converter-fawn-gamma.vercel.app/" target="_blank"><img src="../images/Currency.png" alt="Currency" /></a></div>
+            <div class="project-title">CURRENCY CONVERTER</div>
+            <div class="project-image">
+              <a href="https://currency-converter-fawn-gamma.vercel.app/" target="_blank"><img src="../images/Currency.png" alt="Currency" /></a>
+            </div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">WEATHER APP</div>
-            <div class="project-image"><a href="https://weather-app-ten-gilt-38.vercel.app/" target="_blank"><img src="../images/WeatherApp.png" alt="WeatherApp" /></a></div>
+            <div class="project-title">WEATHER APP</div>
+            <div class="project-image">
+              <a href="https://weather-app-ten-gilt-38.vercel.app/" target="_blank"><img src="../images/WeatherApp.png" alt="WeatherApp" /></a>
+            </div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">TASK TRACKER</div>
-            <div class="project-image"><a href="https://tasktrackernishchal.vercel.app/" target="_blank"><img src="../images/TaskTracker.png" alt="TaskTracker" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">FORM VALIDATION</div>
-            <div class="project-image"><a href="https://gleaming-syrniki-65735c.netlify.app/" target="_blank"><img src="../images/FormValidation.png" alt="FormValidation" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">CONFESS NOTE</div>
-            <div class="project-image"><a href="https://tranquil-biscuit-433084.netlify.app/" target="_blank"><img src="../images/ConfessNote.png" alt="ConfessNote" /></a></div>
-          </div>
-          <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">NEPSE CALCULATOR</div>
-            <div class="project-image"><a href="https://delicate-pie-90da05.netlify.app/" target="_blank"><img src="../images/NepseCalculator.png" alt="NepseCalculator" /></a></div>
+            <div class="project-title">TASK TRACKER</div>
+            <div class="project-image">
+              <a href="https://tasktrackernishchal.vercel.app/" target="_blank"><img src="../images/TaskTracker.png" alt="TaskTracker" /></a>
+            </div>
           </div>
         </div>
       </div>
@@ -187,17 +237,17 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <div class="footer-frame" style="display: flex; gap: 20px;">
-            <div class="frame"><a href="../project_home/index.html">HOME</a></div>
-            <div class="frame"><a href="../about/index.html">ABOUT</a></div>
-            <div class="frame"><a href="../contact/index.html">CONTACT</a></div>
+          <div class="footer-frame">
+            <a href="../project_home/index.html">HOME</a>
+            <a href="../about/index.html">ABOUT</a>
+            <a href="../contact/index.html">CONTACT</a>
           </div>
 
-          <div class="footer-title" style="display: flex; align-items: center; gap: 15px;">
-            <div class="footer-logo"><img src="../images/rpLogoWhite.svg" alt="logo" width="40" /></div>
+          <div class="footer-title">
+            <img src="../images/rpLogoWhite.svg" alt="logo" width="40" />
             <div class="footer-texts">
-              <div class="footer-text"><a href="mailto:nishchalrj2316@gmail.com">nishchalrj2316@gmail.com</a></div>
-              <div class="footer-text"><a href="tel:+9779865512865">+977 9865512865</a></div>
+              <a href="mailto:nishchalrj2316@gmail.com">nishchalrj2316@gmail.com</a>
+              <a href="tel:+9779865512865">+977 9865512865</a>
             </div>
           </div>
         </div>
@@ -205,7 +255,5 @@
     </footer>
 
     <script src="../scripts/script.js"></script>
-    <script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
-    <script>new Snowflakes();</script>
   </body>
 </html>
