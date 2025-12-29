@@ -126,23 +126,51 @@
   display: block; /* Required to allow margin to be applied */
   margin-bottom: 250px; /* Adjust the space as needed */
 }
+.home-banner {
+    width: 100%;
+    position: fixed; /* Keeps it at the top while scrolling */
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 120px; /* This 120px matches your Home page desktop margin */
+    z-index: 100;
+}
+
+.home-icon img {
+    width: 60px; /* Balanced logo size */
+    height: auto;
+}
+
 .home-panel {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  margin-right: 7%; /* Consistent gap from right edge */
-  transition: transform 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all .2s ease;
 }
 
-.home-panel:hover {
-  transform: scale(1.1); /* Subtle grow on hover */
-}
-
+/* This makes the menu icon specifically larger */
 .home-panel img {
-  width: 50px;  /* Changed from 150px (which was likely too huge) to a clean 50px */
-  height: auto;
-  display: block;
+    width: 50px; /* Increased from 35px to 50px for 'large' look */
+    height: auto;
+    display: block;
+}
+
+/* --- MOBILE RESPONSIVENESS FOR THE HEADER --- */
+@media screen and (max-width: 800px) {
+    .home-banner {
+        padding: 20px 37px; /* Matches your home page mobile spacing */
+    }
+    
+    .home-panel img {
+        width: 40px; /* Slightly smaller but still clear on mobile */
+    }
+    
+    .home-icon img {
+        width: 40px;
+    }
 }
       .footer-frame { display: flex; gap: 20px; }
       .footer-frame a { color: #fff; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; }
@@ -192,18 +220,23 @@
     </style>
   </head>
   <body>
-    <div class="home-banner" style="display:flex; justify-content:space-between; padding:20px 0; align-items:center;">
-  <div class="home-icon" style="margin-left: 5%;">
-    <img src="../images/rpLogoWhite.svg" alt="logo" width="45" />
-  </div>
-  <div class="home-panel" id="home-panel">
-    <img src="../images/3_white.svg" alt="menu_burger" /> 
-  </div>
-</div>
+    <body>
+    <div class="home-banner">
+      <div class="home-icon">
+        <img src="../images/rpLogoWhite.svg" alt="logo" />
+      </div>
+      <div class="home-panel" id="home-panel">
+        <img src="../images/3_white.svg" alt="menu_burger" />
+      </div>
+    </div>
 
     <div class="menu" id="menu">
-      <div class="home-panel-closes" id="home-panel-closes"><img src="../images/X_white.svg" alt="x" /></div>
-      <div class="menu-title"><img src="../images/rpLogoBlack.svg" alt="logo" /> Portfolio</div>
+      <div class="home-panel-closes" id="home-panel-closes">
+        <img src="../images/X_white.svg" alt="x" width="30" />
+      </div>
+      <div class="menu-title">
+        <img src="../images/rpLogoBlack.svg" alt="logo" /> Portfolio
+      </div>
       <div class="list-menu">
         <ul>
           <li><a href="../project_home/index.html">Home</a></li>
