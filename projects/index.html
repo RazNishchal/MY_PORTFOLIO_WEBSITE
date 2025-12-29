@@ -48,7 +48,7 @@
       /* --- PROJECT GRID (3:3 on Desktop) --- */
       .projects {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 Columns for Large Screen */
+        grid-template-columns: repeat(3, 1fr); 
         gap: 30px;
         margin-top: 50px;
         width: 100%;
@@ -69,7 +69,14 @@
         border-color: rgba(255, 255, 255, 0.3);
       }
 
-      /* --- IMAGE FIX (THE MOST IMPORTANT PART) --- */
+      /* Desktop Project Title Font */
+      .project-title {
+        font-family: 'League Spartan'; 
+        color: #888; 
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
       .project-image {
         width: 100%;
         overflow: hidden;
@@ -77,8 +84,8 @@
       }
 
       .project-image img {
-        width: 100%;    /* Image fits parent card width */
-        height: auto;   /* Maintains aspect ratio */
+        width: 100%; 
+        height: auto; 
         display: block;
         transition: transform 0.6s ease;
       }
@@ -101,11 +108,7 @@
         transition: 0.3s;
       }
 
-      .drive-button:hover {
-        transform: scale(1.05);
-      }
-
-      /* --- FOOTER RESPONSIVE --- */
+      /* --- FOOTER --- */
       .footer {
         padding: 60px 0;
         border-top: 1px solid #222;
@@ -125,17 +128,30 @@
       .footer-title { display: flex; align-items: center; gap: 20px; }
       .footer-texts a { color: #888; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 5px; }
 
-      /* --- MOBILE OVERRIDES --- */
+      /* --- MOBILE OVERRIDES (REQUESTED CHANGES) --- */
       @media (max-width: 1024px) {
-        .projects { grid-template-columns: repeat(2, 1fr); } /* 2 columns for tablets */
+        .projects { grid-template-columns: repeat(2, 1fr); }
       }
 
       @media (max-width: 768px) {
         .container { width: 92%; }
-        
+
+        /* Resizing the card width so the image container isn't too large on mobile */
+        .project {
+            width: 85%;
+            margin: 0 auto; 
+            padding: 15px;
+        }
+
+        /* Decreasing project font size for mobile only */
+        .project-title {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
         .projects { 
-          grid-template-columns: 1fr; /* 1 column for phones */
-          gap: 20px;
+          grid-template-columns: 1fr; 
+          gap: 25px;
         }
 
         .footer-content {
@@ -189,39 +205,39 @@
         
         <div class="projects">
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">KAVRE GUIDE</div>
+            <div class="project-title">KAVRE GUIDE</div>
             <div class="project-image"><a href="https://github.com/RazNishchal/Kavre_Guide" target="_blank"><img src="../images/KavreGuide.png" alt="Kavre" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">PHAL SABJI SANJAAL</div>
+            <div class="project-title">PHAL SABJI SANJAAL</div>
             <div class="project-image"><a href="https://github.com/RazNishchal/Phal-Sabji-Sanjaal" target="_blank"><img src="../images/Phal.png" alt="Phal" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">PORTFOLIO WEBSITE</div>
+            <div class="project-title">PORTFOLIO WEBSITE</div>
             <div class="project-image"><a href="https://www.nishchalrajsubedi.com.np/" target="_blank"><img src="../images/Portfolio.png" alt="Portfolio" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">CURRENCY CONVERTER</div>
+            <div class="project-title">CURRENCY CONVERTER</div>
             <div class="project-image"><a href="https://currency-converter-fawn-gamma.vercel.app/" target="_blank"><img src="../images/Currency.png" alt="Currency" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">WEATHER APP</div>
+            <div class="project-title">WEATHER APP</div>
             <div class="project-image"><a href="https://weather-app-ten-gilt-38.vercel.app/" target="_blank"><img src="../images/WeatherApp.png" alt="WeatherApp" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">TASK TRACKER</div>
+            <div class="project-title">TASK TRACKER</div>
             <div class="project-image"><a href="https://tasktrackernishchal.vercel.app/" target="_blank"><img src="../images/TaskTracker.png" alt="TaskTracker" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">FORM VALIDATION</div>
+            <div class="project-title">FORM VALIDATION</div>
             <div class="project-image"><a href="https://gleaming-syrniki-65735c.netlify.app/" target="_blank"><img src="../images/FormValidation.png" alt="FormValidation" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">CONFESS NOTE</div>
+            <div class="project-title">CONFESS NOTE</div>
             <div class="project-image"><a href="https://tranquil-biscuit-433084.netlify.app/" target="_blank"><img src="../images/ConfessNote.png" alt="ConfessNote" /></a></div>
           </div>
           <div class="project">
-            <div class="project-title" style="font-family: 'League Spartan'; color: #888; margin-bottom: 10px;">NEPSE CALCULATOR</div>
+            <div class="project-title">NEPSE CALCULATOR</div>
             <div class="project-image"><a href="https://delicate-pie-90da05.netlify.app/" target="_blank"><img src="../images/NepseCalculator.png" alt="NepseCalculator" /></a></div>
           </div>
         </div>
