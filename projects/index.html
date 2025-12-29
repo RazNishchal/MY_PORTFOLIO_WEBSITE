@@ -143,6 +143,12 @@
             padding: 15px;
         }
 
+        .extra-space {
+  display: block; /* Required to allow margin to be applied */
+  margin-bottom: 20px; /* Adjust the space as needed */
+}
+
+
         /* Decreasing project font size for mobile only */
         .project-title {
             font-size: 0.9rem;
@@ -153,6 +159,8 @@
           grid-template-columns: 1fr; 
           gap: 25px;
         }
+
+        
 
         .footer-content {
           flex-direction: column;
@@ -191,6 +199,7 @@
     <header class="header">
       <div class="container">
         <div class="header-content">
+          <br class="extra-space">
           <div class="header-title">MY PROJECTS</div>
           <div class="header-text">MADE WITH LOVE</div>
         </div>
