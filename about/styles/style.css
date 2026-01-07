@@ -1,73 +1,99 @@
-/* * {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          /* --- 1. CORE RESET & VARIABLES --- */
+:root {
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --accent-white: #ffffff;
+    --dim-text: #aaaaaa;
+    --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --bg-black: #000000;
+}
+
+* {
     margin: 0;
     padding: 0;
     list-style: none;
     text-decoration: none;
     box-sizing: border-box;
     line-height: normal;
-    font-style: normal;
-    z-index: 1;
 }
 
 *::selection {
     background-color: #FF0000;
+    color: #fff;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: inherit;
+    background-color: var(--bg-black);
+    color: var(--accent-white);
+    overflow-x: hidden;
     animation: opens .5s linear;
-    opacity: 1;
 }
 
 @keyframes opens {
-    from {
-        margin-top: 12px;
-        opacity: 0;
-    }
-    to {
-        margin-top: 0;
-        opacity: 1;
-    }
+    from { margin-top: 12px; opacity: 0; }
+    to { margin-top: 0; opacity: 1; }
 }
 
-img {
-    user-select: none;
-}
-
-.header {
-    color: #FFFFFF;
-    background-color: #000000;
-    height: 100vh;
-}
-
-.container {
-    max-width: 1440px;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
+/* --- 2. NAVIGATION & MENU (Merged Logic) --- */
 .home-banner {
     width: 100%;
     position: fixed;
-    background-color: #000000;
+    top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 120px;
+    padding: 20px clamp(37px, 8vw, 120px);
     z-index: 999;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
 }
 
-.home-icon {
-    width: 80px;
-    height: 80px;
+.home-icon, .footer-logo {
+    width: clamp(40px, 6vw, 80px);
+    height: auto;
 }
 
 .home-panel {
     width: 35px;
     height: 23px;
     cursor: pointer;
-    transition: all .1s linear;
+    transition: var(--transition);
 }
 
 .menu {
@@ -75,617 +101,186 @@ img {
     font-family: 'League Spartan', sans-serif;
     position: fixed;
     top: 0;
-    right: -310px;
-    float: right;
-    padding: 25vh 50px;
-    background: rgba(128, 128, 128, .5);
+    right: -320px;
+    padding: 20vh 50px;
+    background: rgba(20, 20, 20, 0.8);
     height: 100vh;
-    backdrop-filter: blur(16px);
-    border-left: #000000 solid 8px;
-    z-index: 999;
+    backdrop-filter: blur(20px);
+    border-left: var(--accent-white) solid 1px;
+    z-index: 1000;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.openMenu {
+.menu.openMenu {
     right: 0;
-    animation: openMenu .2s linear;
-}
-
-@keyframes openMenu {
-    from {
-        right: -310px;
-    }
-    to {
-        right: 0;
-    }
-}
-
-.home-panel-closes {
-    position: fixed;
-    top: 0;
-    right: 0;
-    margin: 60px 50px 0 0;
-    cursor: pointer;
-    transition: all .1s linear;
-}
-
-.closeMenu {
-    right: -310px;
-    transition: all .2s linear;
-}
-
-@keyframes closeMenu {
-    from {
-        right: 0px;
-    }
-    to {
-        right: -310px;
-    }
 }
 
 .menu-title {
-    color: #FFFFFF;
     font-size: 45px;
     font-weight: 700;
-    margin-bottom: 50px;
-    border-bottom: 2px solid #000000;
-}
-
-.menu-title img {
-    width: 28px;
-    height: 28px;
-}
-
-.list-menu {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--card-border);
 }
 
 .list-menu li {
-    margin: 25px 0;
+    margin: 20px 0;
 }
 
 .list-menu a {
-    color: #000000;
-    font-size: 25px;
-    font-weight: 600;
-    border-left: 2px solid #FFFFFF;
-    padding-left: 5px;
-    transition: all .1s linear;
+    color: var(--dim-text);
+    font-size: 24px;
+    transition: var(--transition);
 }
 
-.menu-footer {
-    border-top: 2px solid #FFFFFF;
-    color: #FFFFFF;
-    padding-top: 10px;
-    font-size: 15px;
-    font-weight: 500;
-    user-select: none;
-    transition: all .1s linear;
+.list-menu a:hover {
+    color: var(--accent-white);
+    padding-left: 10px;
 }
 
-.menu-footer span {
-    color: #000000;
+/* --- 3. HERO & HEADER --- */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.header {
+    padding-top: clamp(120px, 20vh, 220px);
+    padding-bottom: 80px;
+    text-align: center;
 }
 
 .header-title {
-    margin-top: 334px;
-    text-align: center;
-    font-size: 96px;
-    font-weight: 400;
-    font-family: 'League Gothic', sans-serif;
+    font-family: 'League Spartan', sans-serif;
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    margin: 0;
+    line-height: 0.8;
+    text-transform: uppercase;
 }
 
 .header-text {
-    text-align: center;
-    font-size: 32px;
-    font-weight: 400;
-    letter-spacing: 12px;
-    font-family: 'League Spartan', sans-serif;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+    letter-spacing: 8px;
+    color: var(--dim-text);
+    margin-top: 25px;
+    text-transform: uppercase;
 }
 
-.section {
-    color: #000000;
-    background-color: #FFFFFF;
+/* --- 4. CONTENT CARDS & GRID --- */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.content-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    backdrop-filter: blur(10px);
+    padding: clamp(25px, 5vw, 45px);
+    transition: var(--transition);
+}
+
+.content-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-8px);
+}
+
+/* --- 5. TECH STACK --- */
+.tech-stack-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    padding: 80px 0 100px;
+    gap: 40px;
+    margin: 80px 0;
 }
 
-.about-home {
-    margin-bottom: 60px;
-    max-width: 560px;
-    max-height: 290px;
+.tech-item {
+    text-align: center;
+    transition: var(--transition);
 }
 
-.about-home-title {
-    font-family: 'League Spartan', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
+.tech-item img {
+    width: 50px;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: var(--transition);
 }
 
-.about-home-text {
-    margin-top: 20px;
-    font-size: 16px;
-    font-weight: 400;
-    text-align: justify;
+.tech-item:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.15) rotate(5deg);
 }
 
+/* --- 6. BUTTONS --- */
 .btns {
     display: flex;
     justify-content: center;
-    align-items: center;
+    gap: 20px;
+    margin: 60px 0;
 }
 
 .btn {
-    transition: all .1s linear;
-}
-
-.btn a {
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
     display: flex;
-    justify-content: center;
     align-items: center;
-    color: #000000;
-    font-size: 16px;
-    font-weight: 400;
-    background-color: #D9D9D9;
-    padding: 21px 62px;
-    gap: 10px;
 }
 
+.btn-cv { background: var(--accent-white); color: var(--bg-black); }
+.btn-contact { border: 1px solid var(--accent-white); color: var(--accent-white); }
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* --- 7. FOOTER --- */
 .footer {
-    color: #FFFFFF;
-    background-color: #000000;
+    padding: 80px 0 40px;
+    border-top: 1px solid var(--card-border);
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 160px 120px;
-}
-
-.footer-frame {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 30px;
 }
 
-.frame {
-    transition: all .1s linear;
+.footer-frame { display: flex; gap: 30px; }
+.footer-frame a { 
+    color: var(--accent-white); 
+    font-size: 0.75rem; 
+    letter-spacing: 2px; 
+    transition: 0.3s; 
 }
 
-.frame a {
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 700;
-}
+.footer-title { display: flex; align-items: center; gap: 20px; }
+.footer-texts a { color: var(--dim-text); display: block; margin-bottom: 5px; }
 
-.footer-title {
-    width: 600px;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.footer-text {
-    margin-top: 20px;
-    transition: all .1s linear;
-}
-
-.footer-text a {
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.footer-logo {
-    width: 80px;
-    height: 80px;
-}
-
-@media (hover: hover) {
-    .home-panel:hover {
-        transform: scale(.8);
-    }
-
-    .home-panel-closes:hover {
-        transform: scale(.8);
-    }
-
-    .list-menu a:hover {
-        border-left: 2px solid #000000;
-        padding-left: 10px;
-    }
-
-    .btn:hover {
-        transform: scale(0.9);
-    }
-
-    .frame:hover {
-        border-left: #FFFFFF 2px solid;
-        padding-left: 10px;
-    }
-
-    .footer-text:hover {
-        border-left: #FFFFFF 2px solid;
-        padding-left: 10px;
-    }
-}
-
-@media screen and (max-width: 1200px) {
+/* --- 8. RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 850px) {
     .footer-content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
-        padding: 160px 120px;
-    }
-
-    .footer-title {
-        margin-top: 60px;
-        width: 400px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-}
-
-@media screen and (max-width:  800px) {
-    .container {
-        max-width: 800px;
+        text-align: center;
     }
     
-    .home-banner {
-        padding: 20px 37px;
-    }
-    
-    .home-icon {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .home-panel {
-        width: 31px;
-        height: 20px;
-        cursor: initial;
-        transition: all .1s linear;
-    }
-        
-    .menu {
-        width: 275px;
-        font-family: 'League Spartan', sans-serif;
-        position: fixed;
-        top: 0;
-        right: -268px;
-        float: right;
-        padding: 25vh 30px;
-        background: rgba(128, 128, 128, 0.5);
-        height: 100vh;
-        backdrop-filter: blur(16px);
-        border-left: #000000 solid 8px;
-        z-index: 999;
-    }
-    
-    .openMenu {
-        right: 0;
-        animation: openMenu .2s linear;
-    }
-    
-    @keyframes openMenu {
-        from {
-            right: -268px;
-        }
-        to {
-            right: 0;
-        }
-    }
-    
-    .home-panel-closes {
-        position: fixed;
-        top: 0;
-        right: 0;
-        margin: 26px 37px 0 0;
-        cursor: initial;
-    }
-    
-    .closeMenu {
-        right: -268px;
-        transition: all .2s linear;
-    }
-    
-    @keyframes closeMenu {
-        from {
-            right: 0px;
-        }
-        to {
-            right: -268px;
-        }
-    }
-    
-    .menu-title {
-        color: #FFFFFF;
-        font-size: 45px;
-        font-weight: 700;
-        margin-bottom: 50px;
-    }
-    
-    .menu-title img {
-        width: 28px;
-        height: 28px;
-    }
-    
-    .list-menu {
-        margin-bottom: 50px;
-    }
-    
-    .list-menu li {
-        margin: 25px 0;
-    }
-    
-    .list-menu a {
-        font-size: 25px;
-        font-weight: 600;
-        border-left: 2px solid #FFFFFF;
-        padding-left: 5px;
-        transition: all .1s linear;
-    }
-    
-    .menu-footer {
-        border-top: 2px solid #FFFFFF;
-        color: #FFFFFF;
-        padding-top: 10px;
-        font-size: 15px;
-        font-weight: 500;
-        user-select: none;
-        transition: all .1s linear;
-    }
-    
-    .header-title {
-        margin-top: 250px;
-        font-size: 86px;
-    }
-    
-    .header-text {
-        font-size: 22px;
-    }
-    
-    .section {
-        flex-direction: column;
-        padding: 60px 0;
-    }
-    
-    .about-home {
-        max-width: 298px;
-        max-height: 290px;
-    }
+    .footer-title { flex-direction: column; }
     
     .btns {
-        margin: 38px 0 0;
-    }
-    
-    .btn a {
-        padding: 18px 90px;
-    }
-    
-    .footer-content {
-        padding: 83px 37px;
-    }
-    
-    .footer-frame {
-        gap: 26px;
-    }
-    
-    .footer-title {
-        margin-top: 60px;
-        flex-direction: row;
-        justify-content: center;
-        gap: 21px;
-    }
-    
-    .footer-logo {
-        width: 40px;
-        height: 40px;
-    }
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      :root {
-        --card-bg: rgba(255, 255, 255, 0.03);
-        --card-border: rgba(255, 255, 255, 0.08);
-        --accent-white: #ffffff;
-        --dim-text: #aaaaaa;
-        --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      body {
-        background: #000;
-        color: #fff;
-        margin: 0;
-        font-family: 'Roboto', sans-serif;
-        overflow-x: hidden;
-      }
-
-      .container {
-        width: 90%;
-        max-width: 1100px;
-        margin: 0 auto;
-      }
-
-      /* --- HEADER --- */
-      .header {
-        padding-top: clamp(100px, 15vh, 180px);
-        padding-bottom: 60px;
-        text-align: center;
-      }
-
-      .header-title {
-        font-family: 'League Spartan', sans-serif;
-        font-size: clamp(3.5rem, 12vw, 7rem);
-        margin: 0;
-        line-height: 0.8;
-      }
-
-      .header-text {
-        font-size: clamp(0.7rem, 2vw, 1rem);
-        letter-spacing: 8px;
-        color: var(--dim-text);
-        margin-top: 20px;
-        text-transform: uppercase;
-      }
-
-      /* --- THE PREMIUM BLACK CARDS --- */
-      .content-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 24px;
-        backdrop-filter: blur(10px);
-        padding: clamp(25px, 5vw, 45px);
-        transition: var(--transition);
-        height: 100%;
-        box-sizing: border-box;
-      }
-
-      .content-card:hover {
-        background: rgba(255, 255, 255, 0.07);
-        border-color: rgba(255, 255, 255, 0.2);
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      }
-
-      /* --- TECH STACK INTERACTION --- */
-      .tech-stack-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 40px;
-        margin: 80px 0;
-      }
-
-      .tech-item {
-        text-align: center;
-        transition: var(--transition);
-      }
-
-      .tech-item img {
-        width: 50px;
-        filter: grayscale(100%);
-        opacity: 0.6;
-        transition: var(--transition);
-      }
-
-      .tech-item:hover img {
-        filter: grayscale(0%);
-        opacity: 1;
-        transform: scale(1.15) rotate(5deg);
-      }
-
-      .tech-item span {
-        display: block;
-        color: var(--dim-text);
-        font-size: 0.7rem;
-        margin-top: 12px;
-        letter-spacing: 1px;
-      }
-
-      /* --- RESPONSIVE GRID --- */
-      .info-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-        margin-bottom: 80px;
-      }
-
-      /* --- BUTTONS --- */
-      .btns {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-bottom: 80px;
-      }
-
-      .btn {
-        transition: var(--transition);
-        text-decoration: none;
-        display: flex;
+        flex-direction: column;
         align-items: center;
-        padding: 16px 32px;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      .btn-cv { background: #fff; color: #000; }
-      .btn-contact { border: 1px solid #fff; color: #fff; }
-
-      .btn:hover {
-        transform: scale(1.05);
-        background: #f0f0f0; /* Slight tint for CV btn */
-      }
-
-      .btn-contact:hover {
-        background: rgba(255,255,255,0.1);
-      }
-
-      /* --- RESPONSIVE FOOTER FIX --- */
-      .footer {
-        padding: 80px 0 40px;
-        border-top: 1px solid #1a1a1a;
-      }
-
-      .footer-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 30px;
-      }
-
-      .footer-frame { display: flex; gap: 30px; }
-      .footer-frame a { color: #fff; text-decoration: none; font-size: 0.75rem; letter-spacing: 2px; transition: 0.3s; }
-      .footer-frame a:hover { color: var(--dim-text); }
-
-      .footer-title { display: flex; align-items: center; gap: 20px; }
-      .footer-texts a { color: var(--dim-text); text-decoration: none; display: block; font-size: 0.9rem; margin-bottom: 5px; transition: 0.3s; }
-      .footer-texts a:hover { color: #fff; }
-
-      /* --- MOBILE BREAKPOINTS --- */
-      @media (max-width: 850px) {
-        .info-grid { grid-template-columns: 1fr; }
-        
-        .footer-content {
-          flex-direction: column;
-          text-align: center;
-          gap: 50px;
-        }
-
-        .footer-frame { justify-content: center; order: 2; flex-wrap: wrap; }
-        .footer-title { flex-direction: column; order: 1; }
-        .footer-texts { text-align: center; }
-
-        .btns { flex-direction: column; align-items: center; }
-        .btn { width: 100%; max-width: 300px; justify-content: center; box-sizing: border-box; }
-   
+    }
+    
+    .btn { width: 100%; max-width: 300px; justify-content: center; }
+}
